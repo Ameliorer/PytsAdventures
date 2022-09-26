@@ -1,5 +1,6 @@
 import pygame
 from sys import exit
+import time
 from debug import debug
 
 pygame.init()
