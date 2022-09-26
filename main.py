@@ -1,5 +1,6 @@
 import pygame
 from sys import exit
+from debug import debug
 
 pygame.init()
 screen = pygame.display.set_mode((978, 694))
