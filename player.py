@@ -1,12 +1,13 @@
 import pygame
 
+
 class Player(pygame.sprite.Sprite):
-    def __init__(self, group, obstacles ) :
+    def __init__(self, group, obstacles):
         super().__init__(group)
         self.image = pygame.Surface((30, 60))
         self.image.fill('blue')
 
-        self.rect = self.image.get_rect(topleft = (20, 20))
+        self.rect = self.image.get_rect(topleft=(20, 20))
         self.old_rect = self.rect.copy()
 
         self.pos = pygame.math.Vector2(self.rect.topleft)
@@ -31,22 +32,22 @@ class Player(pygame.sprite.Sprite):
         else:
             self.direction.x = 0
 
-    def collision (self, direction):
+    def collision(self, direction):
         walls = pygame.sprite.spritecollide(self, self.obstacles, False)
-        if walls :
-            if direction == 'hori' :
-                for wall in walls :
-                    #a droite
-                    if self.rect.right >= wall.rect.left and self.old_rect.right <= wall.old_rect.left :
+        if walls:
+            if direction == 'hori':
+                for wall in walls:
+                    # a droite
+                    if self.rect.right >= wall.rect.left and self.old_rect.right <= wall.old_rect.left:
                         self.rect.right = wall.rect.left
                         self.pos.x = self.rect.x
 
-                    #a gauche
-                    if self.rect.left <= wall.rect.right and self.old_rect.left >= wall.old_rect.right :
+                    # a gauche
+                    if self.rect.left <= wall.rect.right and self.old_rect.left >= wall.old_rect.right:
                         self.rect.left = wall.rect.right
                         self.pos.x = self.rect.x
 
-            if direction == 'verti' :
+            if direction == 'verti':
                 for wall in walls:
                     # a bas
                     if self.rect.bottom >= wall.rect.top and self.old_rect.bottom <= wall.old_rect.top:
@@ -71,4 +72,3 @@ class Player(pygame.sprite.Sprite):
         self.pos.y += self.direction.y * self.speed * dt
         self.rect.y = round(self.pos.y)
         self.collision('verti')
-

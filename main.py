@@ -16,14 +16,13 @@ collisions = pygame.sprite.Group()
 walls = pygame.sprite.Group()
 
 
-StaticObstacle((0,0),(1280,20),[walls,collisions])
-StaticObstacle((0, 700),(1280,20),[walls,collisions])
-StaticObstacle((0, 0),(20,720),[walls,collisions])
-StaticObstacle((1260, 0),(20,720),[walls,collisions])
-StaticObstacle((200, 50),(500,20),[walls,collisions])
-
-
-
+StaticObstacle((0, 0), (1280, 20), [walls, collisions])
+StaticObstacle((0, 700), (1280, 20), [walls, collisions])
+StaticObstacle((0, 0), (20, 720), [walls, collisions])
+StaticObstacle((1260, 0), (20, 720), [walls, collisions])
+StaticObstacle((200, 50), (500, 20), [walls, collisions])
+StaticObstacle((200, 250), (120, 20), [walls, collisions])
+StaticObstacle((250, 50), (20, 200), [walls, collisions])
 
 player = Player(sprite1, walls)
 
@@ -39,15 +38,9 @@ while True:
             pygame.quit()
             exit()
 
-
     screen.fill('white')
 
     walls.update(dt)
-
-    for wall in walls.sprites():
-        pygame.draw.rect(screen,'orange', wall.old_rect)
-    walls.draw(screen)
-
 
     sprite1.update(dt)
     sprite1.draw(screen)
