@@ -42,6 +42,10 @@ while True:
 
     walls.update(dt)
 
+
+    walls.draw(screen)
+
+
     sprite1.update(dt)
     sprite1.draw(screen)
 
