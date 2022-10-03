@@ -4,6 +4,7 @@ import time
 from debug import debug
 from player import Player
 from StaticObstacle import StaticObstacle
+from fantome import Fantome
 
 pygame.init()
 pygame.display.set_caption("Pyt's Adventures")
@@ -14,6 +15,8 @@ screen = pygame.display.set_mode((screen_width, screen_height))
 sprite1 = pygame.sprite.Group()
 collisions = pygame.sprite.Group()
 walls = pygame.sprite.Group()
+
+creat = True
 
 # CONTOUR
 StaticObstacle((0, 0), (1280, 20), [walls, collisions])
@@ -74,6 +77,14 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             exit()
+
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_e] and creat:
+        test = player.souvenir_pos
+        test.append("kill")
+        fantome = Fantome(sprite1, test)
+        creat = False
+        print(test)
 
     screen.fill('white')
 
