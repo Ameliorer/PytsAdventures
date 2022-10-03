@@ -49,6 +49,8 @@ while True:
     sprite1.update(dt)
     sprite1.draw(screen)
 
+    debug(player.souvenir_pos[-1])
+
     #    for wall in walls:
     #    pygame.draw.rect(screen, (0, 0, 0), wall)
 
