@@ -15,16 +15,53 @@ sprite1 = pygame.sprite.Group()
 collisions = pygame.sprite.Group()
 walls = pygame.sprite.Group()
 
-
+# CONTOUR
 StaticObstacle((0, 0), (1280, 20), [walls, collisions])
 StaticObstacle((0, 700), (1280, 20), [walls, collisions])
 StaticObstacle((0, 0), (20, 720), [walls, collisions])
 StaticObstacle((1260, 0), (20, 720), [walls, collisions])
-StaticObstacle((200, 50), (500, 20), [walls, collisions])
-StaticObstacle((200, 250), (120, 20), [walls, collisions])
-StaticObstacle((250, 50), (20, 200), [walls, collisions])
+
+# HORIZONTAL
+
+StaticObstacle((20, 400), (310, 20), [walls, collisions])
+StaticObstacle((330, 300), (120, 20), [walls, collisions])
+StaticObstacle((150, 500), (450, 20), [walls, collisions])
+StaticObstacle((150, 600), (550, 20), [walls, collisions])
+StaticObstacle((350, 90), (550, 20), [walls, collisions])
+StaticObstacle((720, 345), (420, 20), [walls, collisions])
+StaticObstacle((170, 200), (480, 20), [walls, collisions])
+StaticObstacle((900, 430), (240, 20), [walls, collisions])
+StaticObstacle((900, 260), (240, 20), [walls, collisions])
+StaticObstacle((900, 90), (240, 20), [walls, collisions])
+StaticObstacle((1000, 175), (260, 20), [walls, collisions])
+
+# VERTICAL
+StaticObstacle((430, 200), (20, 120), [walls, collisions])
+StaticObstacle((1120, 260), (20, 90), [walls, collisions])
+StaticObstacle((150, 90), (20, 200), [walls, collisions])
+StaticObstacle((150, 500), (20, 110), [walls, collisions])
+StaticObstacle((700, 345), (20, 275), [walls, collisions])
+StaticObstacle((580, 300), (20, 220), [walls, collisions])
+StaticObstacle((900, 20), (20, 240), [walls, collisions])
+StaticObstacle((900, 440), (20, 180), [walls, collisions])
+StaticObstacle((1050, 620), (20, 100), [walls, collisions])
+
+# ZONE
+wall = pygame.Rect(1060, 440, 200, 260)
+
+#SPAWN
+
+spawns = [pygame.Rect(390, 220, 40, 80),
+          pygame.Rect(170, 520, 40, 80),
+          pygame.Rect(20, 20, 40, 70),
+          pygame.Rect(860, 20, 40, 70),
+          pygame.Rect(920, 20, 40, 70),
+          pygame.Rect(1080, 280, 40, 70),
+          ]
 
 player = Player(sprite1, walls)
+
+
 
 last_time = time.time()
 
@@ -42,6 +79,10 @@ while True:
 
     walls.update(dt)
 
+    for spawn in spawns:
+        pygame.draw.rect(screen, (255, 51, 51), spawn)
+
+    pygame.draw.rect(screen, (153, 255, 153), wall)
 
     walls.draw(screen)
 
@@ -49,7 +90,8 @@ while True:
     sprite1.update(dt)
     sprite1.draw(screen)
 
-    #    for wall in walls:
-    #    pygame.draw.rect(screen, (0, 0, 0), wall)
+
+    debug(player.pos.x)
+    debug(player.pos.y,20, 40)
 
     pygame.display.update()
