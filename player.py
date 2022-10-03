@@ -14,6 +14,8 @@ class Player(pygame.sprite.Sprite):
         self.direction = pygame.math.Vector2()
         self.speed = 250
         self.obstacles = obstacles
+
+        self.souvenir_position = []
     
     def input(self):
         keys = pygame.key.get_pressed()
@@ -60,6 +62,7 @@ class Player(pygame.sprite.Sprite):
                         self.pos.y = self.rect.y
         
     def update(self, dt):
+        self.souvenir_position.append(self.old_rect)
         self.old_rect = self.rect.copy()
         self.input()
         if self.direction.magnitude() != 0:
