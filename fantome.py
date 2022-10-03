@@ -14,8 +14,10 @@ class Fantome(pygame.sprite.Sprite):
         self.compteur += 1
 
         if self.compteur < len(self.passage):
-            self.rect.x = self.passage[self.compteur][0]
-            self.rect.y = self.passage[self.compteur][1]
-        
+            if self.passage[self.compteur] == 'kill':
+                self.kill()
+            else:
+                self.rect.x = self.passage[self.compteur].x
+                self.rect.y = self.passage[self.compteur].y
         else:
             self.kill()
