@@ -84,7 +84,7 @@ while True:
         test.append("kill")
         fantome = Fantome(sprite1, test)
         creat = False
-        print(test)
+        #print(test)
 
     screen.fill('white')
 
@@ -102,7 +102,7 @@ while True:
     sprite1.draw(screen)
 
 
-    debug(player.pos.x)
-    debug(player.pos.y,20, 40)
+    #debug(player.pos.x)
+    #debug(player.pos.y,20, 40)
 
     pygame.display.update()

@@ -6,7 +6,7 @@ class Fantome(pygame.sprite.Sprite):
         self.compteur = 0
         self.passage = listePos
         self.image = pygame.Surface((30, 60))
-        self.image.fill('red')
+        self.image.fill('grey')
 
         self.rect = self.image.get_rect(topleft=(self.passage[self.compteur][0], self.passage[self.compteur][1]))
     
