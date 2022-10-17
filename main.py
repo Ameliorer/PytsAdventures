@@ -5,6 +5,7 @@ from debug import debug
 from player import Player
 from StaticObstacle import StaticObstacle
 from fantome import Fantome
+import random
 
 pygame.init()
 pygame.display.set_caption("Pyt's Adventures")
@@ -61,6 +62,13 @@ spawns = [pygame.Rect(390, 220, 40, 80),
           pygame.Rect(920, 20, 40, 70),
           pygame.Rect(1080, 280, 40, 70),
           ]
+
+starterPlayer = []
+
+for place in spawns:
+    starterPlayer.append((place[0], place[1]))
+
+random.shuffle(starterPlayer)
 
 player = Player(sprite1, walls)
 
