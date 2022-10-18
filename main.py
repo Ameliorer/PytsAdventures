@@ -78,6 +78,15 @@ player = Player(sprite1, walls, starterPlayer[0])
 
 last_time = time.time()
 
+
+TpsZero = pygame.time.get_ticks()  ## Départ
+def temps():
+    seconds = 20 - (pygame.time.get_ticks() - TpsZero) / 1000
+    if seconds < 0:
+        seconds = 0
+    return seconds
+
+
 while True:
 
     dt = time.time() - last_time
@@ -111,6 +120,7 @@ while True:
     sprite1.update(dt)
     sprite1.draw(screen)
 
+    debug(temps())
 
     #debug(player.pos.x)
     #debug(player.pos.y,20, 40)
