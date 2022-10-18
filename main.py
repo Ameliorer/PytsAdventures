@@ -16,6 +16,7 @@ screen = pygame.display.set_mode((screen_width, screen_height))
 sprite1 = pygame.sprite.Group()
 collisions = pygame.sprite.Group()
 walls = pygame.sprite.Group()
+win = pygame.sprite.Group()
 
 creat = True
 
@@ -51,7 +52,8 @@ StaticObstacle((900, 440), (20, 180), [walls, collisions])
 StaticObstacle((1050, 620), (20, 100), [walls, collisions])
 
 # ZONE
-win = pygame.Rect(1060, 440, 200, 260)
+StaticObstacle((1060, 440), (200, 260), [win])
+
 
 #SPAWN
 spawns = [pygame.Rect(390, 220, 40, 80),
@@ -112,7 +114,6 @@ while True:
     for spawn in spawns:
         pygame.draw.rect(screen, (255, 51, 51), spawn)
 
-    pygame.draw.rect(screen, (153, 255, 153), win)
 
     walls.draw(screen)
 
