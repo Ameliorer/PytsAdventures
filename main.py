@@ -54,7 +54,6 @@ StaticObstacle((1050, 620), (20, 100), [walls, collisions])
 win = pygame.Rect(1060, 440, 200, 260)
 
 #SPAWN
-
 spawns = [pygame.Rect(390, 220, 40, 80),
           pygame.Rect(170, 520, 40, 80),
           pygame.Rect(20, 20, 40, 70),
@@ -70,11 +69,9 @@ for place in spawns:
 
 random.shuffle(starterPlayer)
 
-<<<<<<< HEAD
 player = Player(sprite1, walls,starterPlayer[0])
-=======
+
 print(starterPlayer)
->>>>>>> 5d479b98cbd004d90561649ba0a5339cbcb5d512
 
 player = Player(sprite1, walls, starterPlayer[0])
 
