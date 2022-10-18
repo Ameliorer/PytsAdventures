@@ -2,12 +2,12 @@ import pygame
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, group, obstacles):
+    def __init__(self, group, obstacles, starter):
         super().__init__(group)
         self.image = pygame.Surface((30, 60))
         self.image.fill('blue')
 
-        self.rect = self.image.get_rect(topleft=(20, 20))
+        self.rect = self.image.get_rect(topleft=starter)
         self.old_rect = self.rect.copy()
 
         self.pos = pygame.math.Vector2(self.rect.topleft)

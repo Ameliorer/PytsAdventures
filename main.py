@@ -51,7 +51,7 @@ StaticObstacle((900, 440), (20, 180), [walls, collisions])
 StaticObstacle((1050, 620), (20, 100), [walls, collisions])
 
 # ZONE
-wall = pygame.Rect(1060, 440, 200, 260)
+win = pygame.Rect(1060, 440, 200, 260)
 
 #SPAWN
 
@@ -70,8 +70,9 @@ for place in spawns:
 
 random.shuffle(starterPlayer)
 
-player = Player(sprite1, walls)
+print(starterPlayer)
 
+player = Player(sprite1, walls, starterPlayer[0])
 
 
 last_time = time.time()
@@ -101,7 +102,7 @@ while True:
     for spawn in spawns:
         pygame.draw.rect(screen, (255, 51, 51), spawn)
 
-    pygame.draw.rect(screen, (153, 255, 153), wall)
+    pygame.draw.rect(screen, (153, 255, 153), win)
 
     walls.draw(screen)
 
