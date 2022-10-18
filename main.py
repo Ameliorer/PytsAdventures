@@ -70,8 +70,13 @@ for place in spawns:
 
 random.shuffle(starterPlayer)
 
+<<<<<<< HEAD
 player = Player(sprite1, walls,starterPlayer[0])
+=======
+print(starterPlayer)
+>>>>>>> 5d479b98cbd004d90561649ba0a5339cbcb5d512
 
+player = Player(sprite1, walls, starterPlayer[0])
 
 
 last_time = time.time()
