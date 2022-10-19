@@ -5,6 +5,7 @@ from debug import debug
 from player import Player
 from StaticObstacle import StaticObstacle
 from fantome import Fantome
+from win import Win
 import random
 
 pygame.init()
@@ -52,7 +53,7 @@ StaticObstacle((900, 440), (20, 180), [walls, collisions])
 StaticObstacle((1050, 620), (20, 100), [walls, collisions])
 
 # ZONE
-StaticObstacle((1060, 440), (200, 260), [win])
+Win((1060, 440), (200, 260), [win])
 
 
 #SPAWN
@@ -109,6 +110,9 @@ while True:
 
     screen.fill('white')
 
+    win.update(dt)
+    win.draw(screen)
+
     walls.update(dt)
 
     for spawn in spawns:
@@ -116,7 +120,6 @@ while True:
 
 
     walls.draw(screen)
-
 
     sprite1.update(dt)
     sprite1.draw(screen)
