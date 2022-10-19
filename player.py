@@ -65,9 +65,8 @@ class Player(pygame.sprite.Sprite):
                         self.pos.y = self.rect.y
 
     def win(self):
-        condition = pygame.sprite.spritecollide(self, self.win, False)
-        if condition:
-            print("poti")
+        condition = pygame.sprite.spritecollide(self, self.winCond, False)
+        if condition and not self.cheminTerminé:
             self.cheminTerminé = True
 
     def update(self, dt):
@@ -84,3 +83,5 @@ class Player(pygame.sprite.Sprite):
         self.pos.y += self.direction.y * self.speed * dt
         self.rect.y = round(self.pos.y)
         self.collision('verti')
+
+        self.win()

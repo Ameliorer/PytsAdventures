@@ -87,6 +87,7 @@ def temps():
         seconds = 0
     return seconds
 
+fini = False
 
 while True:
 
@@ -125,7 +126,11 @@ while True:
     debug(temps())
 
     if player.cheminTerminé:
-        print('fin du parcour')
+        if not fini:
+            print('fin du parcours')
+            listePosition = player.souvenir_pos[:]
+            fantome = Fantome(sprite1, listePosition)
+            fini = True
 
     #debug(player.pos.x)
     #debug(player.pos.y,20, 40)
