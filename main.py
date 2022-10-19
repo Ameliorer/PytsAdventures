@@ -72,11 +72,9 @@ for place in spawns:
 
 random.shuffle(starterPlayer)
 
-player = Player(sprite1, walls,starterPlayer[0])
+player = Player(sprite1, walls, win, starterPlayer[0])
 
 print(starterPlayer)
-
-player = Player(sprite1, walls, starterPlayer[0])
 
 
 last_time = time.time()
@@ -101,7 +99,7 @@ while True:
             exit()
 
     keys = pygame.key.get_pressed()
-    if keys[pygame.K_e] and creat:
+    if keys[pygame.K_e]:
         test = player.souvenir_pos
         test.append("kill")
         fantome = Fantome(sprite1, test)
@@ -126,7 +124,11 @@ while True:
 
     debug(temps())
 
+    if player.cheminTerminé:
+        print('fin du parcour')
+
     #debug(player.pos.x)
     #debug(player.pos.y,20, 40)
 
     pygame.display.update()
+    clock.tick(50)

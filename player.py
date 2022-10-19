@@ -2,7 +2,7 @@ import pygame
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, group, obstacles, starter):
+    def __init__(self, group, obstacles, win, starter):
         super().__init__(group)
         self.image = pygame.Surface((30, 60))
         self.image.fill('blue')
@@ -14,6 +14,9 @@ class Player(pygame.sprite.Sprite):
         self.direction = pygame.math.Vector2()
         self.speed = 250
         self.obstacles = obstacles
+
+        self.winCond = win
+        self.cheminTerminé = False
 
         self.souvenir_pos = []
     
@@ -60,7 +63,13 @@ class Player(pygame.sprite.Sprite):
                     if self.rect.top <= wall.rect.bottom and self.old_rect.top >= wall.old_rect.bottom:
                         self.rect.top = wall.rect.bottom
                         self.pos.y = self.rect.y
-        
+
+    def win(self):
+        condition = pygame.sprite.spritecollide(self, self.win, False)
+        if condition:
+            print("poti")
+            self.cheminTerminé = True
+
     def update(self, dt):
         self.souvenir_pos.append(self.old_rect)
         self.old_rect = self.rect.copy()
