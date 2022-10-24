@@ -72,19 +72,22 @@ for place in spawns:
 
 random.shuffle(starterPlayer)
 
-player = Player(sprite1, walls, win, starterPlayer[0])
+player = Player(sprite1, walls, win, starterPlayer)
 
-print(starterPlayer)
-
+listePosition = []
 
 last_time = time.time()
 
 
 TpsZero = pygame.time.get_ticks()  ## Départ
-def temps():
+
+def temps(reset = False):
+    global TpsZero
     seconds = 20 - (pygame.time.get_ticks() - TpsZero) / 1000
     if seconds < 0:
         seconds = 0
+    if reset:
+        TpsZero = pygame.time.get_ticks()
     return seconds
 
 fini = False
@@ -123,14 +126,24 @@ while True:
     sprite1.update(dt)
     sprite1.draw(screen)
 
-    debug(temps())
-
     if player.cheminTerminé:
+        print("player cheminTerminé")
         if not fini:
+            print(not fini)
             print('fin du parcours')
-            listePosition = player.souvenir_pos[:]
-            fantome = Fantome(sprite1, listePosition)
+            listePosition.append(player.souvenir_pos[:])
+            player.souvenir_pos = []
+            for i in range (len(listePosition)):
+                fantome = Fantome(sprite1, listePosition[i])
             fini = True
+            player.cheminTerminé = False
+            temps(True)
+        else:
+            print("fini true")
+    else:
+        fini = False
+
+    debug(temps())
 
     #debug(player.pos.x)
     #debug(player.pos.y,20, 40)

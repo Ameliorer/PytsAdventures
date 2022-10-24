@@ -7,7 +7,9 @@ class Player(pygame.sprite.Sprite):
         self.image = pygame.Surface((30, 60))
         self.image.fill('blue')
 
-        self.rect = self.image.get_rect(topleft=starter)
+        self.listeStarter = starter
+        self.compteurPosition = 0
+        self.rect = self.image.get_rect(topleft=self.listeStarter[self.compteurPosition])
         self.old_rect = self.rect.copy()
 
         self.pos = pygame.math.Vector2(self.rect.topleft)
@@ -67,7 +69,16 @@ class Player(pygame.sprite.Sprite):
     def win(self):
         condition = pygame.sprite.spritecollide(self, self.winCond, False)
         if condition and not self.cheminTerminé:
+            print("boby")
             self.cheminTerminé = True
+            if self.compteurPosition < len(self.listeStarter):
+                self.compteurPosition += 1
+            self.pos.x = self.listeStarter[self.compteurPosition][0]
+            self.pos.y = self.listeStarter[self.compteurPosition][1]
+            self.rect.x = round(self.pos.x)
+            self.rect.y = round(self.pos.y)
+            self.old_rect = self.rect.copy()
+
 
     def update(self, dt):
         self.souvenir_pos.append(self.old_rect)
