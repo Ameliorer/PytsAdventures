@@ -78,7 +78,6 @@ listePosition = []
 
 last_time = time.time()
 
-
 TpsZero = pygame.time.get_ticks()  ## Départ
 
 def temps(reset = False):
@@ -143,7 +142,11 @@ while True:
     else:
         fini = False
 
-    debug(temps())
+# AFFICHER LE CHRONO
+    surf = pygame.display.get_surface()
+    temps_surf = pygame.font.Font(None, 30).render(str(temps())[:4], True, 'Black')
+    temps_rect = temps_surf.get_rect(topleft=(20, 20))
+    surf.blit(temps_surf, temps_rect)
 
     #debug(player.pos.x)
     #debug(player.pos.y,20, 40)
