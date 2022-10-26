@@ -78,7 +78,7 @@ listePosition = []
 
 last_time = time.time()
 
-TpsZero = pygame.time.get_ticks()  ## Départ
+TpsZero = pygame.time.get_ticks()  # Départ
 
 def temps(reset = False):
     global TpsZero
@@ -122,10 +122,10 @@ while True:
 
     walls.draw(screen)
 
-    sprite1.update(dt)
+    sprite1.update(dt, temps())
     sprite1.draw(screen)
 
-    if player.cheminTerminé:
+    if player.cheminTerminé and temps()<=0:
         print("player cheminTerminé")
         if not fini:
             print(not fini)

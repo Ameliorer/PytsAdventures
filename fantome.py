@@ -10,7 +10,7 @@ class Fantome(pygame.sprite.Sprite):
 
         self.rect = self.image.get_rect(topleft=(self.passage[self.compteur][0], self.passage[self.compteur][1]))
     
-    def update(self, dt):
+    def update(self, dt, temps):
         self.compteur += 1
 
         if self.compteur < len(self.passage):
