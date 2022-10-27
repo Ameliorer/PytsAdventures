@@ -67,15 +67,16 @@ class Player(pygame.sprite.Sprite):
                         self.pos.y = self.rect.y
 
     def win(self, temps):
-        condition = pygame.sprite.spritecollide(self, self.winCond, False)
-        if condition and not self.cheminTerminé and temps == 0:
-            print("boby")
-            self.cheminTerminé = True
+        condition = pygame.sprite.spritecollide(self, self.winCond, False) # regarde les collisions entre le joueur et la zone d'arrivée
+        if condition and not self.cheminTerminé and temps == 0: # si cette colision existe ET que le chemin n'est pas déjà fini ET que le timer vaut 0 faire:
+            print("boby") #test
+            self.cheminTerminé = True #termine le chemin du joueur (voir le main)
 
-            if self.compteurPosition < len(self.listeStarter):
-                self.compteurPosition += 1
+            if self.compteurPosition < len(self.listeStarter)-1: # si le compteur de position n'est pas à la fin de la liste de position
+                self.compteurPosition += 1 # passe à la position suivante dans la liste des positions
 
-            self.pos.x = self.listeStarter[self.compteurPosition][0]
+            ### placement du joueur sur sa nouvelle position
+            self.pos.x = self.listeStarter[self.compteurPosition][0] 
             self.pos.y = self.listeStarter[self.compteurPosition][1]
             self.rect.x = round(self.pos.x)
             self.rect.y = round(self.pos.y)
