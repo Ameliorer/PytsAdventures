@@ -82,7 +82,7 @@ TpsZero = pygame.time.get_ticks()  # Départ
 
 def temps(reset = False):
     global TpsZero
-    seconds = 20 - (pygame.time.get_ticks() - TpsZero) / 1000
+    seconds = 12 - (pygame.time.get_ticks() - TpsZero) / 1000
     if seconds < 0:
         seconds = 0
     if reset:
@@ -125,28 +125,41 @@ while True:
     sprite1.update(dt, temps())
     sprite1.draw(screen)
 
-    if player.cheminTerminé and temps()<=0: # lorsque le joueur à atteint l'arrivé
+    if player.cheminTerminé and temps()<=0:                     # lorsque le joueur à atteint l'arrivé
         print("player cheminTerminé")
-        if not fini: # pas encore utilisé
-            print(not fini) #test
-            print('fin du parcours') #test
-            listePosition.append(player.souvenir_pos[:]) # on récupère une copie de la liste de positions parcouru par le joueur jusque la et on l'ajoute à la liste des fantômes
-            player.souvenir_pos = [] # on vide la liste de position du joueur
-            for i in range (len(listePosition)): #on parcourt la liste de listes de positions des fantôme et pour chacun d'entre eux:
-                fantome = Fantome(sprite1, listePosition[i]) # on créé un nouveau fantôme
-            fini = True # on termine l'instruction (encore pour éviter les problèmes de répétitions une fois que le jeux est finis)
-            player.cheminTerminé = False # on permet au joueur de récupéré une raison de gagner
-            temps(True) # on reset le timer
+        if not fini:                                            # pas encore utilisé
+            print(not fini)                                     #test
+            print('fin du parcours')                            #test
+            listePosition.append(player.souvenir_pos[:])        # on récupère une copie de la liste de positions parcouru par le joueur jusque la et on l'ajoute à la liste des fantômes
+            player.souvenir_pos = []                            # on vide la liste de position du joueur
+            for i in range (len(listePosition)):                #on parcourt la liste de listes de positions des fantôme et pour chacun d'entre eux:
+                fantome = Fantome(sprite1, listePosition[i])    # on créé un nouveau fantôme
+            fini = True                                         # on termine l'instruction (encore pour éviter les problèmes de répétitions une fois que le jeux est finis)
+            player.cheminTerminé = False                        # on permet au joueur de récupéré une raison de gagner
+            temps(True)                                         # on reset le timer
         else:
-            print("fini true") #pas encore utilisé
+            print("fini true")                                  #pas encore utilisé
     else:
-        fini = False #pour éviter les problèmes mais pas encore utilisé
+        fini = False                                            #pour éviter les problèmes mais pas encore utilisé
 
 # AFFICHER LE CHRONO
     surf = pygame.display.get_surface()
-    temps_surf = pygame.font.Font(None, 30).render(str(temps())[:4], True, 'Black')
-    temps_rect = temps_surf.get_rect(topleft=(20, 20))
-    surf.blit(temps_surf, temps_rect)
+
+    if temps()< 10.0 :
+
+        if int(str(temps())[0]) %2 == 0 :
+            temps_surf = pygame.font.Font(None, 50).render(str(temps())[:4], True, 'Black')
+            temps_rect = temps_surf.get_rect(topleft=(1190, 20))
+            surf.blit(temps_surf, temps_rect)
+        else :
+            temps_surf = pygame.font.Font(None, 50).render(str(temps())[:4], True, 'Red')
+            temps_rect = temps_surf.get_rect(topleft=(1190, 20))
+            surf.blit(temps_surf, temps_rect)
+
+    else :
+        temps_surf = pygame.font.Font(None, 50).render(str(temps())[:4], True, 'Black')
+        temps_rect = temps_surf.get_rect(topleft=(1190, 20))
+        surf.blit(temps_surf, temps_rect)
 
     #debug(player.pos.x)
     #debug(player.pos.y,20, 40)
