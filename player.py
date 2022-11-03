@@ -70,8 +70,9 @@ class Player(pygame.sprite.Sprite):
                         self.pos.y = self.rect.y
 
     def collisionFantome(self):
-        condition = pygame.sprite.spritecollide(self, self.fantome, False)
-        if condition:
+        conditionFantome = pygame.sprite.spritecollide(self, self.fantome, False)
+        conditionWin = pygame.sprite.spritecollide(self, self.winCond, False)          # regarde les collisions entre le joueur et la zone d'arrivée
+        if conditionFantome and not conditionWin:
             print ("impact!!")
             self.collisionMort = True
 
