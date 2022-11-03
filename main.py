@@ -82,7 +82,7 @@ TpsZero = pygame.time.get_ticks()  # Départ
 
 def temps(reset = False):
     global TpsZero
-    seconds = 12 - (pygame.time.get_ticks() - TpsZero) / 1000
+    seconds = 20 - (pygame.time.get_ticks() - TpsZero) / 1000
     if seconds < 0:
         seconds = 0
     if reset:
@@ -90,6 +90,7 @@ def temps(reset = False):
     return seconds
 
 fini = False
+game_over = False
 
 while True:
 
@@ -100,6 +101,10 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             exit()
+
+        elif pygame.key.get_pressed()[pygame.K_p]:
+            game_over = True
+            print("PIPI")
 
     keys = pygame.key.get_pressed()
     if keys[pygame.K_e]:
@@ -142,6 +147,30 @@ while True:
     else:
         fini = False                                            #pour éviter les problèmes mais pas encore utilisé
 
+
+
+
+    font = pygame.font.Font(None, 36)
+
+    if game_over:
+        # If game over is true, draw game over
+
+        screen.fill((0, 0, 0))
+        player.pos.x = 0
+        player.pos.y = 0
+        text = font.render("Game Over", True, (255,255,255))
+        text_rect = text.get_rect()
+        text_x = screen.get_width() / 2 - text_rect.width / 2
+        text_y = screen.get_height() / 2 - text_rect.height / 2
+        screen.blit(text, [text_x, text_y])
+
+
+
+
+
+
+
+
 # AFFICHER LE CHRONO
     surf = pygame.display.get_surface()
 
@@ -161,7 +190,7 @@ while True:
         temps_rect = temps_surf.get_rect(topleft=(1190, 20))
         surf.blit(temps_surf, temps_rect)
 
-    #debug(player.pos.x)
+    debug(player.pos.x)
     #debug(player.pos.y,20, 40)
 
     pygame.display.update()
