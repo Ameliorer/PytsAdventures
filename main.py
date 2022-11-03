@@ -14,7 +14,8 @@ clock = pygame.time.Clock()
 screen_width, screen_height = 1280, 720
 screen = pygame.display.set_mode((screen_width, screen_height))
 
-sprite1 = pygame.sprite.Group()
+spriteJoueur = pygame.sprite.Group()
+spriteFantome = pygame.sprite.Group()
 collisions = pygame.sprite.Group()
 walls = pygame.sprite.Group()
 win = pygame.sprite.Group()
@@ -72,7 +73,7 @@ for place in spawns:
 
 random.shuffle(starterPlayer)
 
-player = Player(sprite1, walls, win, starterPlayer)
+player = Player(spriteJoueur, walls, spriteFantome, win, starterPlayer)
 
 listePosition = []
 
@@ -92,6 +93,8 @@ def temps(reset = False):
 fini = False
 game_over = False
 
+compteur = 0
+
 while True:
 
     dt = time.time() - last_time
@@ -110,7 +113,7 @@ while True:
     if keys[pygame.K_e]:
         test = player.souvenir_pos
         test.append("kill")
-        fantome = Fantome(sprite1, test)
+        fantome = Fantome(spriteFantome, test, compteur)
         creat = False
         #print(test)
 
@@ -127,18 +130,23 @@ while True:
 
     walls.draw(screen)
 
-    sprite1.update(dt, temps())
-    sprite1.draw(screen)
+    spriteFantome.update(compteur)
+    spriteFantome.draw(screen)
+    compteur += 1
+
+    spriteJoueur.update(dt, temps())
+    spriteJoueur.draw(screen)
 
     if player.cheminTerminé and temps()<=0:                     # lorsque le joueur à atteint l'arrivé
         print("player cheminTerminé")
         if not fini:                                            # pas encore utilisé
+            compteur = 0
             print(not fini)                                     #test
             print('fin du parcours')                            #test
             listePosition.append(player.souvenir_pos[:])        # on récupère une copie de la liste de positions parcouru par le joueur jusque la et on l'ajoute à la liste des fantômes
             player.souvenir_pos = []                            # on vide la liste de position du joueur
             for i in range (len(listePosition)):                #on parcourt la liste de listes de positions des fantôme et pour chacun d'entre eux:
-                fantome = Fantome(sprite1, listePosition[i])    # on créé un nouveau fantôme
+                fantome = Fantome(spriteFantome, listePosition[i], compteur)    # on créé un nouveau fantôme
             fini = True                                         # on termine l'instruction (encore pour éviter les problèmes de répétitions une fois que le jeux est finis)
             player.cheminTerminé = False                        # on permet au joueur de récupéré une raison de gagner
             temps(True)                                         # on reset le timer
@@ -148,7 +156,7 @@ while True:
         fini = False                                            #pour éviter les problèmes mais pas encore utilisé
 
 
-    if temps() <= 0 and not player.cheminTerminé:  # Si le temps est dépassé et que le chemin n'est pas fini
+    if (temps() <= 0 and not player.cheminTerminé) or (player.collisionMort):  # Si le temps est dépassé et que le chemin n'est pas fini
         game_over = True
 
 

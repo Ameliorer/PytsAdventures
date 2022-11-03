@@ -2,7 +2,7 @@ import pygame
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, group, obstacles, win, starter):
+    def __init__(self, group, obstacles, fantome, win, starter):
         super().__init__(group)
         self.image = pygame.Surface((30, 60))
         self.image.fill('blue')
@@ -16,6 +16,9 @@ class Player(pygame.sprite.Sprite):
         self.direction = pygame.math.Vector2()
         self.speed = 250
         self.obstacles = obstacles
+
+        self.fantome = fantome
+        self.collisionMort = False
 
         self.winCond = win
         self.cheminTerminé = False
@@ -66,6 +69,12 @@ class Player(pygame.sprite.Sprite):
                         self.rect.top = wall.rect.bottom
                         self.pos.y = self.rect.y
 
+    def collisionFantome(self):
+        condition = pygame.sprite.spritecollide(self, self.fantome, False)
+        if condition:
+            print ("impact!!")
+            self.collisionMort = True
+
     def win(self, temps):
         condition = pygame.sprite.spritecollide(self, self.winCond, False)          # regarde les collisions entre le joueur et la zone d'arrivée
         if condition and not self.cheminTerminé and temps <= 0:                     # si cette colision existe ET que le chemin n'est pas déjà fini ET que le timer vaut 0 faire:
@@ -97,5 +106,7 @@ class Player(pygame.sprite.Sprite):
         self.pos.y += self.direction.y * self.speed * dt
         self.rect.y = round(self.pos.y)
         self.collision('verti')
+
+        self.collisionFantome()
 
         self.win(temps)
