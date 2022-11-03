@@ -82,7 +82,7 @@ TpsZero = pygame.time.get_ticks()  # Départ
 
 def temps(reset = False):
     global TpsZero
-    seconds = 5 - (pygame.time.get_ticks() - TpsZero) / 1000
+    seconds = 15 - (pygame.time.get_ticks() - TpsZero) / 1000
     if seconds < 0:
         seconds = 0
     if reset:
@@ -97,8 +97,7 @@ while True:
     dt = time.time() - last_time
     last_time = time.time()
 
-    if temps() <= 0 and not player.cheminTerminé:  # Si le temps est dépassé et que le chemin n'est pas fini
-        game_over = True
+
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -149,25 +148,8 @@ while True:
         fini = False                                            #pour éviter les problèmes mais pas encore utilisé
 
 
-
-
-    font = pygame.font.Font(None, 36)
-
-    if game_over:
-
-        screen.fill((0, 0, 0))                                      # écran noir
-        player.pos.x = 0                                            # le joueur ne peux plus bouger
-        player.pos.y = 0                                            # le joueur ne peux plus bouger
-        text = font.render("Game Over", True, (255,255,255))        # création du texte "game over"
-        text_rect = text.get_rect()                                 # c'est un rectangle
-        text_x = screen.get_width() / 2 - text_rect.width / 2       # on le met au milieu de l'écran
-        text_y = screen.get_height() / 2 - text_rect.height / 2     # on le met au milieu de l'écran
-        screen.blit(text, [text_x, text_y])                         # on affiche le "game over"
-
-
-
-
-
+    if temps() <= 0 and not player.cheminTerminé:  # Si le temps est dépassé et que le chemin n'est pas fini
+        game_over = True
 
 
 
@@ -184,6 +166,34 @@ while True:
         temps_surf = pygame.font.Font(None, 50).render(str(temps())[:4], True, 'Black')
         temps_rect = temps_surf.get_rect(topleft=(1190, 20))
         surf.blit(temps_surf, temps_rect)
+
+
+
+
+    font = pygame.font.Font(None, 36)
+
+    if game_over:
+        screen.fill((0, 0, 0))                                      # écran noir
+        player.pos.x = 0                                            # le joueur ne peut plus bouger
+        player.pos.y = 0                                            # le joueur ne peut plus bouger
+        text = font.render("Game Over", True, (255, 255, 255))      # création du texte "game over"
+        text_rect = text.get_rect()                                 # c'est un rectangle
+        text_x = screen.get_width() / 2 - text_rect.width / 2       # on le met au milieu de l'écran
+        text_y = screen.get_height() / 2 - text_rect.height / 2     # on le met au milieu de l'écran
+        screen.blit(text, [text_x, text_y])                         # on affiche le "game over"
+
+
+    if len(listePosition) == len(spawns):
+        screen.fill((0, 0, 0))                                      # écran noir
+        player.pos.x = 0                                            # le joueur ne peut plus bouger
+        player.pos.y = 0                                            # le joueur ne peut plus bouger
+        text = font.render("Félicitations ! vous avez réussi !", True, (255, 255, 255))  # création du texte
+        text_rect = text.get_rect()                                 # c'est un rectangle
+        text_x = screen.get_width() / 2 - text_rect.width / 2       # on le met au milieu de l'écran
+        text_y = screen.get_height() / 2 - text_rect.height / 2     # on le met au milieu de l'écran
+        screen.blit(text, [text_x, text_y])                         # on affiche le texte
+
+
 
     #debug(player.pos.x)
     #debug(player.pos.y,20, 40)
