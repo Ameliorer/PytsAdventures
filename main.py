@@ -102,9 +102,8 @@ while True:
             pygame.quit()
             exit()
 
-        elif pygame.key.get_pressed()[pygame.K_p]:
+        elif temps() <= 0 and not player.cheminTerminé :
             game_over = True
-            print("PIPI")
 
     keys = pygame.key.get_pressed()
     if keys[pygame.K_e]:
@@ -190,7 +189,7 @@ while True:
         temps_rect = temps_surf.get_rect(topleft=(1190, 20))
         surf.blit(temps_surf, temps_rect)
 
-    debug(player.pos.x)
+    #debug(player.pos.x)
     #debug(player.pos.y,20, 40)
 
     pygame.display.update()
