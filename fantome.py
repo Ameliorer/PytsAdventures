@@ -11,11 +11,11 @@ class Fantome(pygame.sprite.Sprite):
     
     def update(self, compteur):
 
-        if compteur < len(self.passage):
-            if self.passage[compteur] == 'kill':
-                self.kill()
-            else:
-                self.rect.x = self.passage[compteur].x
+        if compteur < len(self.passage):                        # si le compteur est inferieur au len de la liste de positions
+            if self.passage[compteur] == 'kill':                    # si dans la liste de positions on trouve 'kill'
+                self.kill()                                             # on tue le fantome
+            else:                                                   #si dans la liste de positions on ne trouve pas 'kill'
+                self.rect.x = self.passage[compteur].x                  # on affiche le fantome à sa place
                 self.rect.y = self.passage[compteur].y
-        else:
-            self.kill()
+        else:                                                   # si le compteur est supérieur ou égal au len de la liste de positions
+            self.kill()                                             # on tue le fantome

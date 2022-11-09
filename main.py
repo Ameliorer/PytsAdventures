@@ -80,6 +80,7 @@ listePosition = []
 last_time = time.time()
 
 TpsZero = pygame.time.get_ticks()  # Départ
+TpsZeroBis = pygame.time.get_ticks()  # Départ
 
 def temps(reset = False):
     global TpsZero
@@ -88,6 +89,15 @@ def temps(reset = False):
         seconds = 0
     if reset:
         TpsZero = pygame.time.get_ticks()
+    return seconds
+
+def temps_attentes(reset = False):
+    global TpsZeroBis
+    seconds = 4 - (pygame.time.get_ticks() - TpsZeroBis) / 1000
+    if seconds < 0:
+        seconds = 0
+    if reset:
+        TpsZeroBis = pygame.time.get_ticks()
     return seconds
 
 fini = False
@@ -107,16 +117,6 @@ while True:
             pygame.quit()
             exit()
 
-
-
-    keys = pygame.key.get_pressed()
-    if keys[pygame.K_e]:
-        test = player.souvenir_pos
-        test.append("kill")
-        fantome = Fantome(spriteFantome, test, compteur)
-        creat = False
-        #print(test)
-
     screen.fill('white')
 
     win.update(dt)
@@ -134,10 +134,10 @@ while True:
     spriteFantome.draw(screen)
     compteur += 1
 
-    spriteJoueur.update(dt, temps())
+    spriteJoueur.update(dt, temps_attentes(), temps())
     spriteJoueur.draw(screen)
 
-    if player.cheminTerminé and temps()<=0:                     # lorsque le joueur à atteint l'arrivé
+    if ( temps()<=0 or temps_attentes()<=0 ) and player.cheminTerminé  :                     # lorsque le joueur à atteint l'arrivé et que le temps d'attente ou le temps total est nul
         print("player cheminTerminé")
         if not fini:                                            # pas encore utilisé
             compteur = 0
@@ -157,26 +157,27 @@ while True:
 
 
     if (temps() <= 0 and not player.cheminTerminé) or (player.collisionMort):  # Si le temps est dépassé et que le chemin n'est pas fini
-        game_over = True
+        game_over = True                                                            # ou si on touche le fantome qui se voit et qu'on est pas dans la zone de fin
 
-
+    if pygame.sprite.spritecollide(player, win, False):                 # si il y a une collision entre le joueur et la zone de fin
+        res = False                                                         # on reset le temps d'attente
+    else :                                                              # sinon
+        res = True                                                          # il ne se reset pas
+    temps_attentes(res)
 
 # AFFICHER LE CHRONO
     surf = pygame.display.get_surface()
 
-    if temps() < 10.0 and not int(str(temps())[0]) %2 == 0:      # pour faire clignoter le texte dans on est en dessous des 10 secondes et quand il est impair
-
-        temps_surf = pygame.font.Font(None, 50).render(str(temps())[:4], True, 'Red')
-        temps_rect = temps_surf.get_rect(topleft=(1190, 20))
-        surf.blit(temps_surf, temps_rect)
-
+    if temps() < 5.0 :      # changer la couleur du texte
+        couleur = "Red"
     else :
-        temps_surf = pygame.font.Font(None, 50).render(str(temps())[:4], True, 'Black')
-        temps_rect = temps_surf.get_rect(topleft=(1190, 20))
-        surf.blit(temps_surf, temps_rect)
+        couleur = "Black"
 
+    temps_surf = pygame.font.Font(None, 50).render(str(temps())[:4], True, couleur)
+    temps_rect = temps_surf.get_rect(topleft=(1190, 20))
+    surf.blit(temps_surf, temps_rect)
 
-
+#--------------------#
 
     font = pygame.font.Font(None, 36)
 
