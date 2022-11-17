@@ -57,7 +57,7 @@ class Pot (pygame.sprite.Sprite):
                     case "speed-":
                         player.modificateurs += self.nb
                     case "freeze":
-                        player.modificateurs -= player.speedBase
+                        player.modificateurs += player.speedBase
                     case _:                                 # sinon
                         pass                                # saute l'instruction
                 self.actif = False                          # montre que la potion n'a pas été utiliser lors de la manche
