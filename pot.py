@@ -1,7 +1,8 @@
 import pygame
+from debug import debug
 
 class Pot (pygame.sprite.Sprite):
-    def __init__(self, group, posx, posy, nbUtilisable, action,nb = 0, tx = 10, ty = 10):
+    def __init__(self, group, posx, posy, nbUtilisable, action,nb = 0, tempUtilisation = 15, tempStart = 0,tx = 10, ty = 10):
         super().__init__(group)
         self.type = "potion"
 
@@ -20,15 +21,19 @@ class Pot (pygame.sprite.Sprite):
         self.rect = self.image.get_rect(topleft=(posx, posy))
 
         self.actif = False
+        self.haveBeenActif= False
 
         self.nbUtilisable = nbUtilisable
         self.nbUtilise = 0
 
         self.nb = nb
+        self.tempUtilisation = tempUtilisation
+        self.tempStart = tempStart
 
-    def use(self, player, actif = False):
+    def use(self, player,actif = False):
         if actif:                                           # si le reset de la potion n'est pas demandée
-            if not self.actif:                              # si la potion n'as pas été déjà utiliser lors de ce round
+            if not self.actif and not self.nbUtilise == self.nbUtilisable:                              # si la potion n'as pas été déjà utiliser lors de ce round
+                self.haveBeenActif = True
                 match self.action:                          # regarde si le type de la potion existe
                     case "speed+":                          # si il existe
                         player.modificateurs += self.nb     # met en place les différentes modifications
@@ -49,7 +54,18 @@ class Pot (pygame.sprite.Sprite):
                     case _:                                 # sinon
                         pass                                # saute l'instruction
                 self.actif = False                          # montre que la potion n'a pas été utiliser lors de la manche
-    
+
+    def timer(self, player, temp, setup = False):
+        debug(self.tempUtilisation + self.tempStart, 20, 60)
+        debug((15-temp), 20, 80)
+        if not setup:
+            if self.actif:
+                if self.tempUtilisation + self.tempStart <= (15-temp):
+                    self.use(player, False)
+        else:
+            self.tempStart = 15-temp
+
     def apear(self):
+        self.haveBeenActif = False
         if self.nbUtilise == self.nbUtilisable:             # si le nombre d'utilisation maximum a été réaliser
             self.kill()                                     # détruit la potion

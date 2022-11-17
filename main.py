@@ -71,7 +71,8 @@ spawns = [pygame.Rect(390, 220, 40, 80),
           ]
 
 #POTIONS
-potionVitesse = Pot([objs], 500, 300, 1, "speed+", 50)
+# potionVitesse = Pot([objs], 500, 300, 1, "speed+", 50)
+potionVitesseEphemere = Pot([objs], 500, 300, 2, "speed+", 50, 3)
 
 starterPlayer = []
 
@@ -141,7 +142,7 @@ while True:
 
     zones.draw(screen)
     for obj in objs:
-        if not obj.actif:
+        if not obj.haveBeenActif:
             objs.draw(screen)
 
     spriteFantome.update(compteur)
@@ -216,8 +217,8 @@ while True:
     #debug(player.pos.x)
     #debug(player.pos.y,20, 40)
 
-    # debug(player.speed)
-    # debug(player.modificateurs, 20, 40)
+    debug(player.speed)
+    debug(player.modificateurs, 20, 40)
 
     pygame.display.update()
     clock.tick(50)

@@ -106,11 +106,13 @@ class Player(pygame.sprite.Sprite):
                 objet.apear()
     
 
-    def utiliser(self):
+    def utiliser(self, temps):
         condition = pygame.sprite.spritecollide(self, self.objets, False)           # si on rencontre une ou plusieurs potions
         for objet in self.objets:                                                   # pour toutes les potions dans le rack de potion
             if objet in condition:                                                  # si une potion a été touchée,
                 objet.use(self, True)                                               # alors on l'utilise
+                objet.timer(self, temps, True)
+            objet.timer(self, temps)
 
     def traverser(self):
         condition = pygame.sprite.spritecollide(self, self.zones, False)            # voir au dessus, c'est le même principe
@@ -137,7 +139,7 @@ class Player(pygame.sprite.Sprite):
 
         self.collisionFantome()
 
-        self.utiliser()
+        self.utiliser(temps)
         self.traverser()
 
         self.speed = self.speedBase + self.modificateurs
