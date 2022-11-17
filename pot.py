@@ -14,8 +14,11 @@ class Pot (pygame.sprite.Sprite):
                 self.image.fill('yellow')
             case "speed-":
                 self.image.fill('brown')
+            case "freeze":
+                self.image.fill('blue')
             case _:
                 self.image.fill('black')
+
 
         self.rect = self.image.get_rect(topleft=(posx, posy))
 
@@ -34,6 +37,8 @@ class Pot (pygame.sprite.Sprite):
                         player.modificateurs += self.nb     # met en place les différentes modifications
                     case "speed-":
                         player.modificateurs -= self.nb
+                    case "freeze":
+                        player.modificateurs -= player.speedBase
                     case _:                                 # sinon
                         pass                                # saute l'instruction
                 self.nbUtilise += 1                         # augmente le nombre de fois que la potion a été utilisé
@@ -46,6 +51,8 @@ class Pot (pygame.sprite.Sprite):
                         player.modificateurs -= self.nb     # met en place les différentes modifications
                     case "speed-":
                         player.modificateurs += self.nb
+                    case "freeze":
+                        player.modificateurs -= player.speedBase
                     case _:                                 # sinon
                         pass                                # saute l'instruction
                 self.actif = False                          # montre que la potion n'a pas été utiliser lors de la manche

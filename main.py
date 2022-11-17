@@ -71,7 +71,7 @@ spawns = [pygame.Rect(390, 220, 40, 80),
           ]
 
 #POTIONS
-potionVitesse = Pot([objs], 500, 300, 1, "speed+", 50)
+potionVitesse = Pot([objs], 500, 300, 1, "freeze", 0)
 
 starterPlayer = []
 
