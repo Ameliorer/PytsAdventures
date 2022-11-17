@@ -139,21 +139,21 @@ while True:
 
     walls.draw(screen)
 
+    zones.draw(screen)
+    for obj in objs:
+        if not obj.actif:
+            objs.draw(screen)
+
     spriteFantome.update(compteur)
     spriteFantome.draw(screen)
     compteur += 1
 
-    zones.draw(screen)
-    objs.draw(screen)
     spriteJoueur.update(dt, temps_attentes(), temps())
     spriteJoueur.draw(screen)
 
     if ( temps()<=0 or temps_attentes()<=0 ) and player.cheminTerminé  :                     # lorsque le joueur à atteint l'arrivé et que le temps d'attente ou le temps total est nul
-        print("player cheminTerminé")
         if not fini:                                            # pas encore utilisé
             compteur = 0
-            print(not fini)                                     #test
-            print('fin du parcours')                            #test
             listePosition.append(player.souvenir_pos[:])        # on récupère une copie de la liste de positions parcouru par le joueur jusque la et on l'ajoute à la liste des fantômes
             player.souvenir_pos = []                            # on vide la liste de position du joueur
             for i in range (len(listePosition)):                #on parcourt la liste de listes de positions des fantôme et pour chacun d'entre eux:
@@ -161,8 +161,6 @@ while True:
             fini = True                                         # on termine l'instruction (encore pour éviter les problèmes de répétitions une fois que le jeux est finis)
             player.cheminTerminé = False                        # on permet au joueur de récupéré une raison de gagner
             temps(True)                                         # on reset le timer
-        else:
-            print("fini true")                                  #pas encore utilisé
     else:
         fini = False                                            #pour éviter les problèmes mais pas encore utilisé
 
@@ -218,8 +216,8 @@ while True:
     #debug(player.pos.x)
     #debug(player.pos.y,20, 40)
 
-    debug(player.speed)
-    debug(player.modificateurs, 20, 30)
+    # debug(player.speed)
+    # debug(player.modificateurs, 20, 40)
 
     pygame.display.update()
     clock.tick(50)

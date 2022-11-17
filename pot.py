@@ -27,28 +27,29 @@ class Pot (pygame.sprite.Sprite):
         self.nb = nb
 
     def use(self, player, actif = False):
-        if actif:
-            if not self.actif:
-                match self.action:
-                    case "speed+":
-                        player.modificateurs += self.nb
+        if actif:                                           # si le reset de la potion n'est pas demandée
+            if not self.actif:                              # si la potion n'as pas été déjà utiliser lors de ce round
+                match self.action:                          # regarde si le type de la potion existe
+                    case "speed+":                          # si il existe
+                        player.modificateurs += self.nb     # met en place les différentes modifications
                     case "speed-":
                         player.modificateurs -= self.nb
-                    case _:
-                        pass
-                self.nbUtilise += 1
-                self.actif = True
-        else:
-            if self.actif:
-                match self.action:
-                    case "speed+":
-                        player.modificateurs -= self.nb
+                    case _:                                 # sinon
+                        pass                                # saute l'instruction
+                self.nbUtilise += 1                         # augmente le nombre de fois que la potion a été utilisé
+                self.actif = True                           # montre que la potion a été utiliser lors de la manche
+
+        else:                                               # si on demande le reset
+            if self.actif:                                  # si la potion a été utiliser lors de ce round
+                match self.action:                          # regarde si le type de la potion existe
+                    case "speed+":                          # si il existe
+                        player.modificateurs -= self.nb     # met en place les différentes modifications
                     case "speed-":
                         player.modificateurs += self.nb
-                    case _:
-                        pass
-            self.actif = False
+                    case _:                                 # sinon
+                        pass                                # saute l'instruction
+                self.actif = False                          # montre que la potion n'a pas été utiliser lors de la manche
     
     def apear(self):
-        if self.nbUtilise == self.nbUtilisable:
-            self.kill()
+        if self.nbUtilise == self.nbUtilisable:             # si le nombre d'utilisation maximum a été réaliser
+            self.kill()                                     # détruit la potion

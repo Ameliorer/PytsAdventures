@@ -100,22 +100,20 @@ class Player(pygame.sprite.Sprite):
             self.rect.y = round(self.pos.y)
             self.old_rect = self.rect.copy()
             
+            ## mise à jour des potions et de leurs effets
             for objet in self.objets:
                 objet.use(self)
                 objet.apear()
-
-            for zone in self.zones:
-                zone.util(self)
     
 
     def utiliser(self):
-        condition = pygame.sprite.spritecollide(self, self.objets, False)
-        for objet in self.objets:
-            if objet in condition:
-                objet.use(self, True)
+        condition = pygame.sprite.spritecollide(self, self.objets, False)           # si on rencontre une ou plusieurs potions
+        for objet in self.objets:                                                   # pour toutes les potions dans le rack de potion
+            if objet in condition:                                                  # si une potion a été touchée,
+                objet.use(self, True)                                               # alors on l'utilise
 
     def traverser(self):
-        condition = pygame.sprite.spritecollide(self, self.zones, False)
+        condition = pygame.sprite.spritecollide(self, self.zones, False)            # voir au dessus, c'est le même principe
         for zone in self.zones:
             if zone in condition:
                 zone.util(self, True)

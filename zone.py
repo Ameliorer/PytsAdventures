@@ -23,7 +23,7 @@ class Zone (pygame.sprite.Sprite):
         
         self.use = False
 
-    def util(self, player, actif = False):
+    def util(self, player, actif = False):          # voir Pot, le fonctionnement est le même
         if actif:
             if not self.use:
                 match self.action:
