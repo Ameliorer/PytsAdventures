@@ -1,8 +1,7 @@
 import pygame
 
-
 class Player(pygame.sprite.Sprite):
-    def __init__(self, group, obstacles, fantome, win, starter):
+    def __init__(self, group, obstacles, fantome, win, starter, objets):
         super().__init__(group)
         self.image = pygame.Surface((30, 60))
         self.image.fill('blue')
@@ -24,6 +23,8 @@ class Player(pygame.sprite.Sprite):
         self.cheminTerminé = False
 
         self.souvenir_pos = []
+
+        self.objets = objets
     
     def input(self, temps_attentes):
         keys = pygame.key.get_pressed()
@@ -94,7 +95,17 @@ class Player(pygame.sprite.Sprite):
             self.rect.x = round(self.pos.x)
             self.rect.y = round(self.pos.y)
             self.old_rect = self.rect.copy()
+            
+            for objet in self.objets:
+                objet.use(self)
+                objet.apear()
+    
 
+    def utiliser(self):
+        condition = pygame.sprite.spritecollide(self, self.objets, False)
+        for objet in self.objets:
+            if objet in condition:
+                objet.use(self, True)
 
     def update(self, dt, temps_attentes, temps):
         self.souvenir_pos.append(self.old_rect)
@@ -112,5 +123,7 @@ class Player(pygame.sprite.Sprite):
         self.collision('verti')
 
         self.collisionFantome()
+
+        self.utiliser()
 
         self.win(temps_attentes, temps)

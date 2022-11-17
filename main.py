@@ -6,6 +6,7 @@ from player import Player
 from StaticObstacle import StaticObstacle
 from fantome import Fantome
 from win import Win
+from pot import Pot
 import random
 
 pygame.init()
@@ -18,6 +19,7 @@ spriteJoueur = pygame.sprite.Group()
 spriteFantome = pygame.sprite.Group()
 collisions = pygame.sprite.Group()
 walls = pygame.sprite.Group()
+objs = pygame.sprite.Group()
 win = pygame.sprite.Group()
 
 creat = True
@@ -66,6 +68,9 @@ spawns = [pygame.Rect(390, 220, 40, 80),
           pygame.Rect(1080, 280, 40, 70),
           ]
 
+#POTIONS
+potionVitesse = Pot([objs], 500, 300, 1, "speed+", 50)
+
 starterPlayer = []
 
 for place in spawns:
@@ -73,7 +78,7 @@ for place in spawns:
 
 random.shuffle(starterPlayer)
 
-player = Player(spriteJoueur, walls, spriteFantome, win, starterPlayer)
+player = Player(spriteJoueur, walls, spriteFantome, win, starterPlayer, objs)
 
 listePosition = []
 
@@ -134,6 +139,7 @@ while True:
     spriteFantome.draw(screen)
     compteur += 1
 
+    objs.draw(screen)
     spriteJoueur.update(dt, temps_attentes(), temps())
     spriteJoueur.draw(screen)
 
@@ -206,6 +212,8 @@ while True:
 
     #debug(player.pos.x)
     #debug(player.pos.y,20, 40)
+
+    debug(player.speed)
 
     pygame.display.update()
     clock.tick(50)
