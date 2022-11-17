@@ -1,7 +1,7 @@
 import pygame
 
-class Pot (pygame.sprite.Sprite):
-    def __init__(self, group, posx, posy, nbUtilisable, action,nb = 0, tx = 10, ty = 10):
+class Zone (pygame.sprite.Sprite):
+    def __init__(self, group, posx, posy, action,nb = 0, tx = 200, ty = 200):
         super().__init__(group)
         self.type = "potion"
 
@@ -19,16 +19,13 @@ class Pot (pygame.sprite.Sprite):
 
         self.rect = self.image.get_rect(topleft=(posx, posy))
 
-        self.actif = False
-
-        self.nbUtilisable = nbUtilisable
-        self.nbUtilise = 0
-
         self.nb = nb
+        
+        self.use = False
 
-    def use(self, player, actif = False):
+    def util(self, player, actif = False):
         if actif:
-            if not self.actif:
+            if not self.use:
                 match self.action:
                     case "speed+":
                         player.modificateurs += self.nb
@@ -36,10 +33,9 @@ class Pot (pygame.sprite.Sprite):
                         player.modificateurs -= self.nb
                     case _:
                         pass
-                self.nbUtilise += 1
-                self.actif = True
+            self.use = True
         else:
-            if self.actif:
+            if self.use:
                 match self.action:
                     case "speed+":
                         player.modificateurs -= self.nb
@@ -47,8 +43,4 @@ class Pot (pygame.sprite.Sprite):
                         player.modificateurs += self.nb
                     case _:
                         pass
-            self.actif = False
-    
-    def apear(self):
-        if self.nbUtilise == self.nbUtilisable:
-            self.kill()
+            self.use = False

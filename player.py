@@ -1,7 +1,7 @@
 import pygame
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, group, obstacles, fantome, win, starter, objets):
+    def __init__(self, group, obstacles, fantome, win, starter, objets, zones):
         super().__init__(group)
         self.image = pygame.Surface((30, 60))
         self.image.fill('blue')
@@ -13,8 +13,11 @@ class Player(pygame.sprite.Sprite):
 
         self.pos = pygame.math.Vector2(self.rect.topleft)
         self.direction = pygame.math.Vector2()
-        self.speed = 250
         self.obstacles = obstacles
+
+        self.speedBase = 250
+        self.modificateurs = 0
+        self.speed = self.speedBase + self.modificateurs
 
         self.fantome = fantome
         self.collisionMort = False
@@ -25,6 +28,7 @@ class Player(pygame.sprite.Sprite):
         self.souvenir_pos = []
 
         self.objets = objets
+        self.zones = zones
     
     def input(self, temps_attentes):
         keys = pygame.key.get_pressed()
@@ -99,6 +103,9 @@ class Player(pygame.sprite.Sprite):
             for objet in self.objets:
                 objet.use(self)
                 objet.apear()
+
+            for zone in self.zones:
+                zone.util(self)
     
 
     def utiliser(self):
@@ -106,6 +113,14 @@ class Player(pygame.sprite.Sprite):
         for objet in self.objets:
             if objet in condition:
                 objet.use(self, True)
+
+    def traverser(self):
+        condition = pygame.sprite.spritecollide(self, self.zones, False)
+        for zone in self.zones:
+            if zone in condition:
+                zone.util(self, True)
+            else:
+                zone.util(self, False)
 
     def update(self, dt, temps_attentes, temps):
         self.souvenir_pos.append(self.old_rect)
@@ -125,5 +140,8 @@ class Player(pygame.sprite.Sprite):
         self.collisionFantome()
 
         self.utiliser()
+        self.traverser()
+
+        self.speed = self.speedBase + self.modificateurs
 
         self.win(temps_attentes, temps)
