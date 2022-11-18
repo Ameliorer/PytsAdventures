@@ -73,7 +73,8 @@ spawns = [pygame.Rect(390, 220, 40, 80),
 #POTIONS
 # potionVitesse = Pot([objs], 500, 300, 1, "speed+", 50)
 # potionVitesse = Pot([objs], 500, 300, 1, "speed+", 50)
-potionVitesseEphemere = Pot([objs], 500, 300, 2, "freeze", 0, 1)
+
+Spikes = Pot([objs], 500, 300, 2, "spikes", 0)
 
 
 starterPlayer = []
@@ -105,7 +106,7 @@ def temps(reset = False):
 
 def temps_attentes(reset = False):
     global TpsZeroBis
-    seconds = 4 - (pygame.time.get_ticks() - TpsZeroBis) / 1000
+    seconds = 1 - (pygame.time.get_ticks() - TpsZeroBis) / 1000
     if seconds < 0:
         seconds = 0
     if reset:
@@ -193,7 +194,7 @@ while True:
 
     font = pygame.font.Font(None, 36)
 
-    if game_over:
+    if game_over or Spikes.game_over:
         screen.fill((0, 0, 0))                                      # écran noir
         player.pos.x = 0                                            # le joueur ne peut plus bouger
         player.pos.y = 0                                            # le joueur ne peut plus bouger
