@@ -109,7 +109,7 @@ class Player(pygame.sprite.Sprite):
     def utiliser(self, temps):
         condition = pygame.sprite.spritecollide(self, self.objets, False)           # si on rencontre une ou plusieurs potions
         for objet in self.objets:                                                   # pour toutes les potions dans le rack de potion
-            if objet in condition:                                                  # si une potion a été touchée,
+            if objet in condition and not objet.actif:                                                  # si une potion a été touchée,
                 objet.use(self, True)                                               # alors on l'utilise
                 objet.timer(self, temps, True)
             objet.timer(self, temps)
