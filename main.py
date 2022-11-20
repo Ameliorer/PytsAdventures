@@ -74,12 +74,12 @@ spawns = [pygame.Rect(390, 220, 40, 80),
 # potionVitesse = Pot([objs], 500, 300, 1, "speed+", 50)
 # potionVitesse = Pot([objs], 500, 300, 1, "speed+", 50)
 
-Spikes = Pot([objs], 500, 300, 2, "spikes", 0)
-
+Spikes = Pot([objs], 500, 300, 2, "spikes")
+ZoneMort = Zone([zones], 200, 200, "mort", 100)
 
 starterPlayer = []
 
-zoneAcceleration = Zone([zones], 500, 400, "speed-", 50)
+#zoneAcceleration = Zone([zones], 500, 400, "toboggan bas", 50)
 
 for place in spawns:
     starterPlayer.append((place[0], place[1]))
@@ -172,6 +172,9 @@ while True:
     if (temps() <= 0 and not player.cheminTerminé) or (player.collisionMort):  # Si le temps est dépassé et que le chemin n'est pas fini
         game_over = True                                                            # ou si on touche le fantome qui se voit et qu'on est pas dans la zone de fin
 
+    if ZoneMort.game_over or Spikes.game_over:
+        game_over = True
+
     if pygame.sprite.spritecollide(player, win, False):                 # si il y a une collision entre le joueur et la zone de fin
         res = False                                                         # on reset le temps d'attente
     else :                                                              # sinon
@@ -194,7 +197,7 @@ while True:
 
     font = pygame.font.Font(None, 36)
 
-    if game_over or Spikes.game_over:
+    if game_over:
         screen.fill((0, 0, 0))                                      # écran noir
         player.pos.x = 0                                            # le joueur ne peut plus bouger
         player.pos.y = 0                                            # le joueur ne peut plus bouger

@@ -23,24 +23,34 @@ class Zone (pygame.sprite.Sprite):
         
         self.use = False
 
+        self.actif = False
+        self.haveBeenActif = False
+
+        self.game_over = False
+
     def util(self, player, actif = False):          # voir Pot, le fonctionnement est le même
         if actif:
-            if not self.use:
+            if not self.actif:
+                self.haveBeenActif = True
                 match self.action:
                     case "speed+":
                         player.modificateurs += self.nb
                     case "speed-":
                         player.modificateurs -= self.nb
+                    case "mort":
+                        self.game_over = True
                     case _:
                         pass
-            self.use = True
+                self.actif = True
         else:
-            if self.use:
+            if self.actif:
                 match self.action:
                     case "speed+":
                         player.modificateurs -= self.nb
                     case "speed-":
                         player.modificateurs += self.nb
+                    case "mort":
+                        self.game_over = False
                     case _:
                         pass
-            self.use = False
+                self.actif = False
