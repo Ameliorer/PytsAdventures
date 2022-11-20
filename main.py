@@ -74,19 +74,19 @@ spawns = [pygame.Rect(390, 220, 40, 80),
 # potionVitesse = Pot([objs], 500, 300, 1, "speed+", 50)
 # potionVitesse = Pot([objs], 500, 300, 1, "speed+", 50)
 
-Spikes = Pot([objs], 500, 300, 2, "spikes")
-ZoneMort = Zone([zones], 200, 200, "mort", 100)
+Spikes = Pot([objs], 500, 300, 2, "spikes", 0, 0, 0, 0, 0)
+ZoneMort = Zone([zones], 700, 350, "mort", 0, 0, 0)
 
 starterPlayer = []
 
-#zoneAcceleration = Zone([zones], 500, 400, "toboggan bas", 50)
+#zoneAcceleration = Zone([zones], 500, 400, "speed+", 50)
 
 for place in spawns:
     starterPlayer.append((place[0], place[1]))
 
 random.shuffle(starterPlayer)
 
-player = Player(spriteJoueur, walls, spriteFantome, win, starterPlayer, objs, zones)
+player = Player(spriteJoueur, walls, spriteFantome, win, starterPlayer, objs, zones, True)
 
 listePosition = []
 

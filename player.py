@@ -1,7 +1,7 @@
 import pygame
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, group, obstacles, fantome, win, starter, objets, zones):
+    def __init__(self, group, obstacles, fantome, win, starter, objets, zones, rebonds=False):
         super().__init__(group)
         self.image = pygame.Surface((30, 60))
         self.image.fill('blue')
@@ -29,6 +29,8 @@ class Player(pygame.sprite.Sprite):
 
         self.objets = objets
         self.zones = zones
+
+        self.rebonds = rebonds
     
     def input(self, temps_attentes):
         keys = pygame.key.get_pressed()
@@ -51,6 +53,7 @@ class Player(pygame.sprite.Sprite):
             self.direction.y = 0
 
     def collision(self, direction):
+        rebonds = self.rebonds
         walls = pygame.sprite.spritecollide(self, self.obstacles, False)
         if walls:
             if direction == 'hori':
@@ -59,11 +62,15 @@ class Player(pygame.sprite.Sprite):
                     if self.rect.right >= wall.rect.left and self.old_rect.right <= wall.old_rect.left:
                         self.rect.right = wall.rect.left
                         self.pos.x = self.rect.x
+                        if rebonds :
+                            self.pos.x = self.rect.x - 20
 
                     # a gauche
                     if self.rect.left <= wall.rect.right and self.old_rect.left >= wall.old_rect.right:
                         self.rect.left = wall.rect.right
                         self.pos.x = self.rect.x
+                        if rebonds :
+                            self.pos.x = self.rect.x + 20
 
             if direction == 'verti':
                 for wall in walls:
@@ -71,11 +78,15 @@ class Player(pygame.sprite.Sprite):
                     if self.rect.bottom >= wall.rect.top and self.old_rect.bottom <= wall.old_rect.top:
                         self.rect.bottom = wall.rect.top
                         self.pos.y = self.rect.y
+                        if rebonds :
+                            self.pos.y = self.rect.y - 20
 
                     # a haut
                     if self.rect.top <= wall.rect.bottom and self.old_rect.top >= wall.old_rect.bottom:
                         self.rect.top = wall.rect.bottom
                         self.pos.y = self.rect.y
+                        if rebonds :
+                            self.pos.y = self.rect.y + 20
 
     def collisionFantome(self):
         conditionFantome = pygame.sprite.spritecollide(self, self.fantome, False)      # on regarde les collisions entre le joueur et le fantome qui se voit
