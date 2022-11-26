@@ -32,9 +32,9 @@ class Player(pygame.sprite.Sprite):
 
         self.rebonds = rebonds
     
-    def input(self, temps_attentes):
+    def input(self, temps):
         keys = pygame.key.get_pressed()
-        if temps_attentes > 0:
+        if temps <= 15 :
             if keys[pygame.K_UP]:
                 self.direction.y = -1
             elif keys[pygame.K_DOWN]:
@@ -136,7 +136,7 @@ class Player(pygame.sprite.Sprite):
     def update(self, dt, temps_attentes, temps):
         self.souvenir_pos.append(self.old_rect)
         self.old_rect = self.rect.copy()
-        self.input(temps_attentes)
+        self.input(temps)
         if self.direction.magnitude() != 0:
             self.direction = self.direction.normalize()
 

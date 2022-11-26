@@ -14,7 +14,7 @@ pygame.init()
 pygame.display.set_caption("Pyt's Adventures")
 clock = pygame.time.Clock()
 screen_width, screen_height = 1280, 720
-screen = pygame.display.set_mode((screen_width, screen_height))
+screen = pygame.display.set_mode((screen_width, screen_height), pygame.SRCALPHA)
 
 spriteJoueur = pygame.sprite.Group()
 spriteFantome = pygame.sprite.Group()
@@ -74,8 +74,17 @@ spawns = [pygame.Rect(390, 220, 40, 80),
 # potionVitesse = Pot([objs], 500, 300, 1, "speed+", 50)
 # potionVitesse = Pot([objs], 500, 300, 1, "speed+", 50)
 
-Spikes = Pot([objs], 500, 300, 2, "spikes", 0, 0, 0, 0, 0)
-ZoneMort = Zone([zones], 700, 350, "mort", 0, 0, 0)
+Spikes = Pot([objs], 500, 300, 2, "spikes", 0, 15, 0,0,0)
+ZoneMort = Zone([zones], 700, 350, "mort", 0,0,0)
+
+PotSpeedp = Pot([objs], 500, 300, 2, "speed+", 50, 3, 0, 0, 0)
+ZoneSpeedp = Zone([zones], 700, 350, "speed+", 100,0,0)
+
+PotSpeedm = Pot([objs], 500, 300, 2, "speed-", 50, 3, 0, 0, 0)
+ZoneSpeedm = Zone([zones], 700, 350, "speed-", 200)
+
+PotSpeedm = Pot([objs], 500, 300, 2, "freeze", 50, 1, 0,0,0)
+ZoneSpeedm = Zone([zones], 700, 350, "freeze", 50,0,0)
 
 starterPlayer = []
 
@@ -86,7 +95,7 @@ for place in spawns:
 
 random.shuffle(starterPlayer)
 
-player = Player(spriteJoueur, walls, spriteFantome, win, starterPlayer, objs, zones, True)
+player = Player(spriteJoueur, walls, spriteFantome, win, starterPlayer, objs, zones)
 
 listePosition = []
 
@@ -97,7 +106,7 @@ TpsZeroBis = pygame.time.get_ticks()  # Départ
 
 def temps(reset = False):
     global TpsZero
-    seconds = 15 - (pygame.time.get_ticks() - TpsZero) / 1000
+    seconds = 18 - (pygame.time.get_ticks() - TpsZero) / 1000
     if seconds < 0:
         seconds = 0
     if reset:
@@ -181,16 +190,32 @@ while True:
         res = True                                                          # il ne se reset pas
     temps_attentes(res)
 
+    if temps() > 15:
+        s = pygame.Surface((screen_width, screen_height), pygame.SRCALPHA)  # per-pixel alpha
+        s.fill((255, 255, 255, 170))  # notice the alpha value in the color
+        screen.blit(s, (0, 0))
+
 # AFFICHER LE CHRONO
     surf = pygame.display.get_surface()
+
+    if temps() > 15 :
+        affiche = str((temps()-14))[0]
+        coordonnesX = 600
+        coordonnesY = 300
+        taille = 100
+    else :
+        affiche = str(temps())[:4]
+        coordonnesX = 1190
+        coordonnesY = 20
+        taille = 50
 
     if temps() < 5.0 :      # changer la couleur du texte
         couleur = "Red"
     else :
         couleur = "Black"
 
-    temps_surf = pygame.font.Font(None, 50).render(str(temps())[:4], True, couleur)
-    temps_rect = temps_surf.get_rect(topleft=(1190, 20))
+    temps_surf = pygame.font.Font(None, taille).render(affiche, True, couleur)
+    temps_rect = temps_surf.get_rect(topleft=(coordonnesX, coordonnesY))
     surf.blit(temps_surf, temps_rect)
 
 #--------------------#
@@ -217,6 +242,7 @@ while True:
         text_x = screen.get_width() / 2 - text_rect.width / 2       # on le met au milieu de l'écran
         text_y = screen.get_height() / 2 - text_rect.height / 2     # on le met au milieu de l'écran
         screen.blit(text, [text_x, text_y])                         # on affiche le texte
+
 
 
 

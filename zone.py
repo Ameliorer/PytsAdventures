@@ -14,6 +14,8 @@ class Zone (pygame.sprite.Sprite):
                 self.image.fill('yellow')
             case "speed-":
                 self.image.fill('brown')
+            case "freeze":
+                self.image.fill('blue')
             case _:
                 self.image.fill('black')
 
@@ -39,6 +41,8 @@ class Zone (pygame.sprite.Sprite):
                         player.modificateurs -= self.nb
                     case "mort":
                         self.game_over = True
+                    case "freeze":
+                        player.modificateurs -= player.speedBase
                     case _:
                         pass
                 self.actif = True
@@ -51,6 +55,8 @@ class Zone (pygame.sprite.Sprite):
                         player.modificateurs += self.nb
                     case "mort":
                         self.game_over = False
+                    case "freeze":
+                        player.modificateurs += player.speedBase
                     case _:
                         pass
                 self.actif = False
