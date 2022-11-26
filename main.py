@@ -149,10 +149,10 @@ while True:
     for spawn in spawns:
         pygame.draw.rect(screen, (255, 51, 51), spawn)
 
+    zones.draw(screen)
 
     walls.draw(screen)
 
-    zones.draw(screen)
     for obj in objs:
         if not obj.haveBeenActif:
             objs.draw(screen)
