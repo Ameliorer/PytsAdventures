@@ -13,7 +13,8 @@ class Game:
     def __init__(self, place, screen) -> None:
         self.screen_width, self.screen_height = 1280, 720
         self.screen = screen
-        self.clock = pygame.time.Clock()
+        self.font = pygame.font.Font(None, 36)
+        
         self.spriteJoueur = pygame.sprite.Group()
         self.spriteFantome = pygame.sprite.Group()
         self.collisions = pygame.sprite.Group()
@@ -85,6 +86,7 @@ class Game:
                 # ZoneSpeedm = Zone([self.zones], 700, 350, "speed-", 200)
                 # PotSpeedm = Pot([self.objs], 500, 300, 2, "freeze", 50, 1, 0,0,0)
                 ZoneSpeedm = Zone([self.zones], 700, 350, "freeze", 50,0,0)
+
             case _:
                 pass
         
@@ -97,15 +99,16 @@ class Game:
 
         self.listePosition = []
 
-        self.last_time = time.time()
 
+        self.clock = pygame.time.Clock()
         self.TpsZero = pygame.time.get_ticks()  # Départ
         self.TpsZeroBis = pygame.time.get_ticks()  # Départ
+        self.last_time = time.time()
+        self.compteur = 0
+        self.dt = time.time() - self.last_time
 
         self.fini = False
         self.game_over = False
-
-        self.compteur = 0
 
     def destroy(self):
         for item in self.spriteJoueur:
@@ -141,16 +144,13 @@ class Game:
             self.TpsZeroBis = pygame.time.get_ticks()
         return seconds
     
-    def update(self):
-        dt = time.time() - self.last_time
-        self.last_time = time.time()
-
+    def drawAndUpdate(self):
         self.screen.fill('white')
 
-        self.win.update(dt)
+        self.win.update(self.dt)
         self.win.draw(self.screen)
 
-        self.walls.update(dt)
+        self.walls.update(self.dt)
 
         for spawn in self.spawns:
             pygame.draw.rect(self.screen, (255, 51, 51), spawn)
@@ -167,41 +167,25 @@ class Game:
         self.spriteFantome.draw(self.screen)
         self.compteur += 1
 
-        self.spriteJoueur.update(dt, self.temps_attentes(), self.temps())
+        self.spriteJoueur.update(self.dt, self.temps_attentes(), self.temps())
         self.spriteJoueur.draw(self.screen)
 
-        if ( self.temps()<=0 or self.temps_attentes()<=0 ) and self.player.cheminTerminé  :                     # lorsque le joueur à atteint l'arrivé et que le temps d'attente ou le temps total est nul
-            if not self.fini:                                            # pas encore utilisé
-                self.compteur = 0
-                self.listePosition.append(self.player.souvenir_pos[:])        # on récupère une copie de la liste de positions parcouru par le joueur jusque la et on l'ajoute à la liste des fantômes
-                self.player.souvenir_pos = []                            # on vide la liste de position du joueur
-                for i in range (len(self.listePosition)):                #on parcourt la liste de listes de positions des fantôme et pour chacun d'entre eux:
-                    fantome = Fantome(self.spriteFantome, self.listePosition[i], self.compteur)    # on créé un nouveau fantôme
-                self.fini = True                                         # on termine l'instruction (encore pour éviter les problèmes de répétitions une fois que le jeux est finis)
-                self.player.cheminTerminé = False                        # on permet au joueur de récupéré une raison de gagner
-                self.temps(True)                                         # on reset le timer
-        else:
-            self.fini = False                                            #pour éviter les problèmes mais pas encore utilisé
+    def nextStartPlayer(self):
+        self.compteur = 0
+        self.listePosition.append(self.player.souvenir_pos[:])        # on récupère une copie de la liste de positions parcouru par le joueur jusque la et on l'ajoute à la liste des fantômes
+        self.player.souvenir_pos = []                            # on vide la liste de position du joueur
+        for i in range (len(self.listePosition)):                #on parcourt la liste de listes de positions des fantôme et pour chacun d'entre eux:
+            fantome = Fantome(self.spriteFantome, self.listePosition[i], self.compteur)    # on créé un nouveau fantôme
+        self.fini = True                                         # on termine l'instruction (encore pour éviter les problèmes de répétitions une fois que le jeux est finis)
+        self.player.cheminTerminé = False                        # on permet au joueur de récupéré une raison de gagner
+        self.temps(True)
 
-
-        if (self.temps() <= 0 and not self.player.cheminTerminé) or (self.player.collisionMort):  # Si le temps est dépassé et que le chemin n'est pas fini
-            self.game_over = True                                                            # ou si on touche le fantome qui se voit et qu'on est pas dans la zone de fin
-
-        if self.ZoneMort.game_over or self.Spikes.game_over:
-            self.game_over = True
-
-        if pygame.sprite.spritecollide(self.player, self.win, False):                 # si il y a une collision entre le joueur et la zone de fin
-            res = False                                                         # on reset le temps d'attente
-        else :                                                              # sinon
-            res = True                                                          # il ne se reset pas
-        self.temps_attentes(res)
-
+    def afficheChrono(self):
         if self.temps() > 15:
             s = pygame.Surface((self.screen_width, self.screen_height), pygame.SRCALPHA)  # per-pixel alpha
             s.fill((255, 255, 255, 170))  # notice the alpha value in the color
             self.screen.blit(s, (0, 0))
 
-    # AFFICHER LE CHRONO
         surf = pygame.display.get_surface()
 
         if self.enJeu:
@@ -225,41 +209,59 @@ class Game:
             temps_rect = temps_surf.get_rect(topleft=(coordonnesX, coordonnesY))
             surf.blit(temps_surf, temps_rect)
 
-    #--------------------#
+    def afficheGameOver(self):
+        self.screen.fill((0, 0, 0))                                      # écran noir
+        self.player.pos.x = 0                                            # le joueur ne peut plus bouger
+        self.player.pos.y = 0                                            # le joueur ne peut plus bouger
+        text = self.font.render("Game Over", True, (255, 255, 255))      # création du texte "game over"
+        text_rect = text.get_rect()                                 # c'est un rectangle
+        text_x = self.screen.get_width() / 2 - text_rect.width / 2       # on le met au milieu de l'écran
+        text_y = self.screen.get_height() / 2 - text_rect.height / 2     # on le met au milieu de l'écran
+        self.screen.blit(text, [text_x, text_y])
 
-        font = pygame.font.Font(None, 36)
+    def afficheWin(self):
+        self.screen.fill((0, 0, 0))                                      # écran noir
+        self.player.pos.x = 0                                            # le joueur ne peut plus bouger
+        self.player.pos.y = 0                                            # le joueur ne peut plus bouger
+        text = self.font.render("Félicitations ! vous avez réussi !", True, (255, 255, 255))  # création du texte
+        text_rect = text.get_rect()                                 # c'est un rectangle
+        text_x = self.screen.get_width() / 2 - text_rect.width / 2       # on le met au milieu de l'écran
+        text_y = self.screen.get_height() / 2 - text_rect.height / 2     # on le met au milieu de l'écran
+        self.screen.blit(text, [text_x, text_y])
+
+    def majTemps(self):
+        self.dt = time.time() - self.last_time
+        self.last_time = time.time()
+
+    def update(self):
+        self.majTemps()
+
+        self.drawAndUpdate()
+
+        if ( self.temps()<=0 or self.temps_attentes()<=0 ) and self.player.cheminTerminé  :                     # lorsque le joueur à atteint l'arrivé et que le temps d'attente ou le temps total est nul
+            if not self.fini:                                        # on reset le timer
+                self.nextStartPlayer()
+        else:
+            self.fini = False                                            #pour éviter les problèmes mais pas encore utilisé
+
+
+        if ((self.temps() <= 0 and not self.player.cheminTerminé) or (self.player.collisionMort) or self.ZoneMort.game_over or self.Spikes.game_over):  # Si le temps est dépassé et que le chemin n'est pas fini
+            self.game_over = True                                                            # ou si on touche le fantome qui se voit et qu'on est pas dans la zone de fin
+
+        if pygame.sprite.spritecollide(self.player, self.win, False):                 # si il y a une collision entre le joueur et la zone de fin
+            res = False                                                         # on reset le temps d'attente
+        else :                                                              # sinon
+            res = True                                                          # il ne se reset pas
+        self.temps_attentes(res)
+
+        self.afficheChrono()
 
         if self.game_over:
-            self.screen.fill((0, 0, 0))                                      # écran noir
-            self.player.pos.x = 0                                            # le joueur ne peut plus bouger
-            self.player.pos.y = 0                                            # le joueur ne peut plus bouger
-            text = font.render("Game Over", True, (255, 255, 255))      # création du texte "game over"
-            text_rect = text.get_rect()                                 # c'est un rectangle
-            text_x = self.screen.get_width() / 2 - text_rect.width / 2       # on le met au milieu de l'écran
-            text_y = self.screen.get_height() / 2 - text_rect.height / 2     # on le met au milieu de l'écran
-            self.screen.blit(text, [text_x, text_y])                         # on affiche le "game over"
+            self.afficheGameOver()
 
 
         if len(self.listePosition) == len(self.spawns) and len(self.spawns) != 0:
-            self.screen.fill((0, 0, 0))                                      # écran noir
-            self.player.pos.x = 0                                            # le joueur ne peut plus bouger
-            self.player.pos.y = 0                                            # le joueur ne peut plus bouger
-            text = font.render("Félicitations ! vous avez réussi !", True, (255, 255, 255))  # création du texte
-            text_rect = text.get_rect()                                 # c'est un rectangle
-            text_x = self.screen.get_width() / 2 - text_rect.width / 2       # on le met au milieu de l'écran
-            text_y = self.screen.get_height() / 2 - text_rect.height / 2     # on le met au milieu de l'écran
-            self.screen.blit(text, [text_x, text_y])                         # on affiche le texte
-
-
-
-
-        #debug(player.pos.x)
-        #debug(player.pos.y,20, 40)
-
-        debug(self.player.speed)
-        debug(self.player.modificateurs, 20, 40)
-        for obj in self.objs:
-            debug(obj.haveBeenActif, 20, 100)
+            self.afficheWin()
 
         pygame.display.update()
         self.clock.tick(50)
