@@ -1,12 +1,12 @@
-# PytsAdventures
+# Pyt's Adventures
 projet VISI301
 
-Vous controllez Pyth, le petit rectangle bleu
+Vous contrôlez Pyt, un petit rectangle bleu.
 
-Votre but, atteindre la zone d'arrivée à chaque fois qu'il vous l'ai demandé
+Votre but : atteindre la zone d'arrivée à chaque manche dans un temps imparti.
 
-Mais attention, si vous vous faites toucher par les fantomes de votre passé, vous perdrez
+Mais attention, si vous touchez ou vous faites toucher par les fantômes de votre trajet passé, vous perdrez.
 
-pour lancer le jeu, lancez le fichier main dans un terminal python
+Pour lancer le jeu, lancez le fichier main dans un terminal python.
 
-ATTENTION pour pouvoir jouer à ce jeu, il vous faut posséder le module python nommé pygame (facilement récupérable grâce à la commande: "pip install pygame" ) et la version 3.10 de python
+ATTENTION pour pouvoir jouer à ce jeu, il vous faut posséder le module python nommé pygame (facilement récupérable grâce à la commande : "pip install pygame") et la version 3.10 de python
