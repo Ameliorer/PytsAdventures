@@ -90,6 +90,8 @@ starterPlayer = []
 
 #zoneAcceleration = Zone([zones], 500, 400, "speed+", 50)
 
+enJeu = True
+
 for place in spawns:
     starterPlayer.append((place[0], place[1]))
 
@@ -103,6 +105,102 @@ last_time = time.time()
 
 TpsZero = pygame.time.get_ticks()  # Départ
 TpsZeroBis = pygame.time.get_ticks()  # Départ
+
+def destroy():
+    global spriteJoueur, spriteFantome, collisions, walls, objs, zones, win, spawns, enJeu, temps_surf
+    for item in spriteJoueur:
+        item.kill()
+    for item in spriteFantome:
+        item.kill()
+    for item in collisions:
+        item.kill()
+    for item in walls:
+        item.kill()
+    for item in objs:
+        item.kill()
+    for item in zones:
+        item.kill()
+    for item in win:
+        item.kill()
+    enJeu = False
+    spawns = []
+
+def lancer():
+    global spriteJoueur, spriteFantome, collisions, walls, objs, zones, win, spawns, enJeu, temps_surf, player, listePosition, last_time, TpsZero, TpsZeroBis
+    enJeu = True
+    StaticObstacle((0, 0), (1280, 20), [walls, collisions])
+    StaticObstacle((0, 700), (1280, 20), [walls, collisions])
+    StaticObstacle((0, 0), (20, 720), [walls, collisions])
+    StaticObstacle((1260, 0), (20, 720), [walls, collisions])
+
+    # HORIZONTAL
+
+    StaticObstacle((20, 400), (310, 20), [walls, collisions])
+    StaticObstacle((330, 300), (120, 20), [walls, collisions])
+    StaticObstacle((150, 500), (450, 20), [walls, collisions])
+    StaticObstacle((150, 600), (550, 20), [walls, collisions])
+    StaticObstacle((350, 90), (550, 20), [walls, collisions])
+    StaticObstacle((720, 345), (420, 20), [walls, collisions])
+    StaticObstacle((170, 200), (480, 20), [walls, collisions])
+    StaticObstacle((900, 430), (240, 20), [walls, collisions])
+    StaticObstacle((900, 260), (240, 20), [walls, collisions])
+    StaticObstacle((900, 90), (240, 20), [walls, collisions])
+    StaticObstacle((1000, 175), (260, 20), [walls, collisions])
+
+    # VERTICAL
+    StaticObstacle((430, 200), (20, 120), [walls, collisions])
+    StaticObstacle((1120, 260), (20, 90), [walls, collisions])
+    StaticObstacle((150, 90), (20, 200), [walls, collisions])
+    StaticObstacle((150, 500), (20, 110), [walls, collisions])
+    StaticObstacle((700, 345), (20, 275), [walls, collisions])
+    StaticObstacle((580, 300), (20, 220), [walls, collisions])
+    StaticObstacle((900, 20), (20, 240), [walls, collisions])
+    StaticObstacle((900, 440), (20, 180), [walls, collisions])
+    StaticObstacle((1050, 620), (20, 100), [walls, collisions])
+
+    Win((1060, 440), (200, 260), [win])
+
+
+    #SPAWN
+    spawns = [pygame.Rect(390, 220, 40, 80),
+            pygame.Rect(170, 520, 40, 80),
+            pygame.Rect(20, 20, 40, 70),
+            pygame.Rect(860, 20, 40, 70),
+            pygame.Rect(920, 20, 40, 70),
+            pygame.Rect(1080, 280, 40, 70),
+            ]
+
+    #POTIONS
+    # potionVitesse = Pot([objs], 500, 300, 1, "speed+", 50)
+    # potionVitesse = Pot([objs], 500, 300, 1, "speed+", 50)
+
+    Spikes = Pot([objs], 500, 300, 2, "spikes", 0, 15, 0,0,0)
+    ZoneMort = Zone([zones], 700, 350, "mort", 0,0,0)
+
+    PotSpeedp = Pot([objs], 500, 300, 2, "speed+", 50, 3, 0, 0, 0)
+    ZoneSpeedp = Zone([zones], 700, 350, "speed+", 100,0,0)
+
+    PotSpeedm = Pot([objs], 500, 300, 2, "speed-", 50, 3, 0, 0, 0)
+    ZoneSpeedm = Zone([zones], 700, 350, "speed-", 200)
+
+    PotSpeedm = Pot([objs], 500, 300, 2, "freeze", 50, 1, 0,0,0)
+    ZoneSpeedm = Zone([zones], 700, 350, "freeze", 50,0,0)
+
+    starterPlayer = []
+
+    for place in spawns:
+        starterPlayer.append((place[0], place[1]))
+
+    random.shuffle(starterPlayer)
+
+    player = Player(spriteJoueur, walls, spriteFantome, win, starterPlayer, objs, zones)
+
+    listePosition = []
+
+    last_time = time.time()
+
+    TpsZero = pygame.time.get_ticks()  # Départ
+    TpsZeroBis = pygame.time.get_ticks()  # Départ
 
 def temps(reset = False):
     global TpsZero
@@ -132,9 +230,10 @@ while True:
     dt = time.time() - last_time
     last_time = time.time()
 
-
-
     for event in pygame.event.get():
+        if event.type == pygame.MOUSEBUTTONUP:
+            destroy()
+            lancer()
         if event.type == pygame.QUIT:
             pygame.quit()
             exit()
@@ -198,25 +297,26 @@ while True:
 # AFFICHER LE CHRONO
     surf = pygame.display.get_surface()
 
-    if temps() > 15 :
-        affiche = str((temps()-14))[0]
-        coordonnesX = 600
-        coordonnesY = 300
-        taille = 100
-    else :
-        affiche = str(temps())[:4]
-        coordonnesX = 1190
-        coordonnesY = 20
-        taille = 50
+    if enJeu:
+        if temps() > 15 :
+            affiche = str((temps()-14))[0]
+            coordonnesX = 600
+            coordonnesY = 300
+            taille = 100
+        else :
+            affiche = str(temps())[:4]
+            coordonnesX = 1190
+            coordonnesY = 20
+            taille = 50
 
-    if temps() < 5.0 :      # changer la couleur du texte
-        couleur = "Red"
-    else :
-        couleur = "Black"
+        if temps() < 5.0 :      # changer la couleur du texte
+            couleur = "Red"
+        else :
+            couleur = "Black"
 
-    temps_surf = pygame.font.Font(None, taille).render(affiche, True, couleur)
-    temps_rect = temps_surf.get_rect(topleft=(coordonnesX, coordonnesY))
-    surf.blit(temps_surf, temps_rect)
+        temps_surf = pygame.font.Font(None, taille).render(affiche, True, couleur)
+        temps_rect = temps_surf.get_rect(topleft=(coordonnesX, coordonnesY))
+        surf.blit(temps_surf, temps_rect)
 
 #--------------------#
 
@@ -233,7 +333,7 @@ while True:
         screen.blit(text, [text_x, text_y])                         # on affiche le "game over"
 
 
-    if len(listePosition) == len(spawns):
+    if len(listePosition) == len(spawns) and len(spawns) != 0:
         screen.fill((0, 0, 0))                                      # écran noir
         player.pos.x = 0                                            # le joueur ne peut plus bouger
         player.pos.y = 0                                            # le joueur ne peut plus bouger
