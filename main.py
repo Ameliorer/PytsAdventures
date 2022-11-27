@@ -74,17 +74,17 @@ spawns = [pygame.Rect(390, 220, 40, 80),
 # potionVitesse = Pot([objs], 500, 300, 1, "speed+", 50)
 # potionVitesse = Pot([objs], 500, 300, 1, "speed+", 50)
 
-Spikes = Pot([objs], 500, 300, 2, "spikes", 0, 15, 0,0,0)
 ZoneMort = Zone([zones], 700, 350, "mort", 0,0,0)
 
-PotSpeedp = Pot([objs], 500, 300, 2, "speed+", 50, 3, 0, 0, 0)
-ZoneSpeedp = Zone([zones], 700, 350, "speed+", 100,0,0)
+PotSpeedp = Pot([objs], 500, 300, 15, "speed+", 50, 3)
+Spikes = Pot([objs], 500, 300, 2, "spikes", 0, 15, 0,0,0)
+# ZoneSpeedp = Zone([zones], 700, 350, "speed+", 100,0,0)
 
-PotSpeedm = Pot([objs], 500, 300, 2, "speed-", 50, 3, 0, 0, 0)
-ZoneSpeedm = Zone([zones], 700, 350, "speed-", 200)
+# PotSpeedm = Pot([objs], 500, 300, 2, "speed-", 50, 3, 0, 0, 0)
+# ZoneSpeedm = Zone([zones], 700, 350, "speed-", 200)
 
-PotSpeedm = Pot([objs], 500, 300, 2, "freeze", 50, 1, 0,0,0)
-ZoneSpeedm = Zone([zones], 700, 350, "freeze", 50,0,0)
+# PotSpeedm = Pot([objs], 500, 300, 2, "freeze", 50, 1, 0,0,0)
+# ZoneSpeedm = Zone([zones], 700, 350, "freeze", 50,0,0)
 
 starterPlayer = []
 
@@ -182,7 +182,7 @@ def lancer():
     Spikes = Pot([objs], 500, 300, 2, "spikes", 0, 15, 0,0,0)
     ZoneMort = Zone([zones], 700, 350, "mort", 0,0,0)
 
-    PotSpeedp = Pot([objs], 500, 300, 2, "speed+", 50, 3, 0, 0, 0)
+    PotSpeedp = Pot([objs], 500, 300, 15, "speed+", 50, 3)
     ZoneSpeedp = Zone([zones], 700, 350, "speed+", 100,0,0)
 
     PotSpeedm = Pot([objs], 500, 300, 2, "speed-", 50, 3, 0, 0, 0)
@@ -260,7 +260,7 @@ while True:
 
     for obj in objs:
         if not obj.haveBeenActif:
-            objs.draw(screen)
+            screen.blit(obj.image, obj.rect)
 
     spriteFantome.update(compteur)
     spriteFantome.draw(screen)
@@ -357,6 +357,8 @@ while True:
 
     debug(player.speed)
     debug(player.modificateurs, 20, 40)
+    for obj in objs:
+        debug(obj.haveBeenActif, 20, 100)
 
     pygame.display.update()
     clock.tick(50)

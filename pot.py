@@ -24,6 +24,9 @@ class Pot (pygame.sprite.Sprite):
             case _:
                 self.image.fill('black')
 
+        self.posx = posx
+        self.posy = posy
+
 
         self.rect = self.image.get_rect(topleft=(posx, posy))
 
