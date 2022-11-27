@@ -106,6 +106,11 @@ last_time = time.time()
 TpsZero = pygame.time.get_ticks()  # Départ
 TpsZeroBis = pygame.time.get_ticks()  # Départ
 
+fini = False
+game_over = False
+
+compteur = 0
+
 def destroy():
     global spriteJoueur, spriteFantome, collisions, walls, objs, zones, win, spawns, enJeu, temps_surf
     for item in spriteJoueur:
@@ -126,7 +131,7 @@ def destroy():
     spawns = []
 
 def lancer():
-    global spriteJoueur, spriteFantome, collisions, walls, objs, zones, win, spawns, enJeu, temps_surf, player, listePosition, last_time, TpsZero, TpsZeroBis
+    global spriteJoueur, spriteFantome, collisions, walls, objs, zones, win, spawns, enJeu, temps_surf, player, listePosition, last_time, TpsZero, TpsZeroBis, fini, game_over, compteur
     enJeu = True
     StaticObstacle((0, 0), (1280, 20), [walls, collisions])
     StaticObstacle((0, 700), (1280, 20), [walls, collisions])
@@ -202,6 +207,11 @@ def lancer():
     TpsZero = pygame.time.get_ticks()  # Départ
     TpsZeroBis = pygame.time.get_ticks()  # Départ
 
+    fini = False
+    game_over = False
+
+    compteur = 0
+
 def temps(reset = False):
     global TpsZero
     seconds = 18 - (pygame.time.get_ticks() - TpsZero) / 1000
@@ -220,10 +230,6 @@ def temps_attentes(reset = False):
         TpsZeroBis = pygame.time.get_ticks()
     return seconds
 
-fini = False
-game_over = False
-
-compteur = 0
 
 while True:
 
