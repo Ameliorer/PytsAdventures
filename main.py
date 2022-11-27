@@ -111,6 +111,15 @@ game_over = False
 
 compteur = 0
 
+font = pygame.font.Font(None, 36)
+
+text_bouton = font.render("Recommencer", True, (255, 255, 255))
+text_bouton_rect = text_bouton.get_rect()
+text_bouton_x = screen.get_width() / 2 - text_bouton_rect.width / 2
+text_bouton_y = screen.get_height() / 2 - text_bouton_rect.height / 2
+
+bouton = [text_bouton_x - 10, text_bouton_y + 50, text_bouton_rect.width + 20, text_bouton_rect.height + 20]
+
 def destroy():
     global spriteJoueur, spriteFantome, collisions, walls, objs, zones, win, spawns, enJeu, temps_surf
     for item in spriteJoueur:
@@ -214,7 +223,7 @@ def lancer():
 
 def temps(reset = False):
     global TpsZero
-    seconds = 18 - (pygame.time.get_ticks() - TpsZero) / 1000
+    seconds = 2 - (pygame.time.get_ticks() - TpsZero) / 1000
     if seconds < 0:
         seconds = 0
     if reset:
@@ -237,9 +246,16 @@ while True:
     last_time = time.time()
 
     for event in pygame.event.get():
-        if event.type == pygame.MOUSEBUTTONUP:
-            destroy()
-            lancer()
+    #    if event.type == pygame.MOUSEBUTTONUP:
+    #        destroy()
+    #        lancer()
+
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if pygame.Rect.collidepoint(button,pygame.mouse.get_pos()):
+                destroy()
+                lancer()
+
+
         if event.type == pygame.QUIT:
             pygame.quit()
             exit()
@@ -326,7 +342,7 @@ while True:
 
 #--------------------#
 
-    font = pygame.font.Font(None, 36)
+
 
     if game_over:
         screen.fill((0, 0, 0))                                      # écran noir
@@ -338,6 +354,10 @@ while True:
         text_y = screen.get_height() / 2 - text_rect.height / 2     # on le met au milieu de l'écran
         screen.blit(text, [text_x, text_y])                         # on affiche le "game over"
 
+
+        pygame.draw.rect(screen,(45,45,45), bouton)
+
+        button=screen.blit(text_bouton, [text_bouton_x, text_bouton_y + 60])
 
     if len(listePosition) == len(spawns) and len(spawns) != 0:
         screen.fill((0, 0, 0))                                      # écran noir
