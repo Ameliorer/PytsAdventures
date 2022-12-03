@@ -12,6 +12,9 @@ game = Game(1, screen)
 
 while True:
     for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            exit()
         #if event.type == pygame.MOUSEBUTTONUP:
             #game.destroy()
             #game.__init__(1, screen)
@@ -19,7 +22,4 @@ while True:
             if pygame.Rect.collidepoint(game.button,pygame.mouse.get_pos()):
                 game.destroy()
                 game.__init__(1, screen)
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            exit()
     game.update()
