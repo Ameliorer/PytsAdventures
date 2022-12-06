@@ -19,7 +19,10 @@ while True:
             #game.destroy()
             #game.__init__(1, screen)
         if event.type == pygame.MOUSEBUTTONDOWN:
-            if (game.game_over and pygame.Rect.collidepoint(game.button,pygame.mouse.get_pos())):
+            if ((game.game_over or game.win)and pygame.Rect.collidepoint(game.button,pygame.mouse.get_pos())):
                 game.destroy()
                 game.__init__(1, screen)
     game.update()
+    
+    pygame.display.update()
+    clock.tick(50)

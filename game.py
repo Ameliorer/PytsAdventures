@@ -99,6 +99,7 @@ class Game:
 
         self.listePosition = []
 
+        self.win = False
 
         self.clock = pygame.time.Clock()
         self.TpsZero = pygame.time.get_ticks()  # Départ
@@ -229,6 +230,7 @@ class Game:
         self.button = self.screen.blit(self.text_bouton, [self.text_bouton_x, self.text_bouton_y + 60])
 
     def afficheWin(self):
+        self.win = True
         self.screen.fill((0, 0, 0))                                      # écran noir
         self.player.pos.x = 0                                            # le joueur ne peut plus bouger
         self.player.pos.y = 0                                            # le joueur ne peut plus bouger
@@ -271,6 +273,3 @@ class Game:
 
         if len(self.listePosition) == len(self.spawns) and len(self.spawns) != 0:
             self.afficheWin()
-
-        pygame.display.update()
-        self.clock.tick(50)
