@@ -35,6 +35,7 @@ while True:
         if event.type == pygame.MOUSEBUTTONDOWN:
             if ((not inGame) and pygame.Rect.collidepoint(button,pygame.mouse.get_pos())):
                 inGame = True
+                setGame()
             elif ((game.game_over or game.wining) and pygame.Rect.collidepoint(game.button,pygame.mouse.get_pos())):
                 setGame()
     screen.fill('white')
