@@ -99,7 +99,7 @@ class Game:
 
         self.listePosition = []
 
-        self.win = False
+        self.wining = False
 
         self.clock = pygame.time.Clock()
         self.TpsZero = pygame.time.get_ticks()  # Départ
@@ -153,8 +153,6 @@ class Game:
         return seconds
     
     def drawAndUpdate(self):
-        self.screen.fill('white')
-
         self.win.update(self.dt)
         self.win.draw(self.screen)
 
@@ -230,7 +228,7 @@ class Game:
         self.button = self.screen.blit(self.text_bouton, [self.text_bouton_x, self.text_bouton_y + 60])
 
     def afficheWin(self):
-        self.win = True
+        self.wining = True
         self.screen.fill((0, 0, 0))                                      # écran noir
         self.player.pos.x = 0                                            # le joueur ne peut plus bouger
         self.player.pos.y = 0                                            # le joueur ne peut plus bouger
