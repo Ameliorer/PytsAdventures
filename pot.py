@@ -74,8 +74,6 @@ class Pot (pygame.sprite.Sprite):
                 self.actif = False                          # montre que la potion n'a pas été utiliser lors de la manche
 
     def timer(self, player, temp, setup = False):
-        debug(self.tempUtilisation + self.tempStart, 20, 60)
-        debug((15-temp), 20, 80)
         if not setup:
             if self.actif:
                 if self.tempUtilisation + self.tempStart <= (15-temp):

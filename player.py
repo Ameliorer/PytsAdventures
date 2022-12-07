@@ -92,13 +92,11 @@ class Player(pygame.sprite.Sprite):
         conditionFantome = pygame.sprite.spritecollide(self, self.fantome, False)      # on regarde les collisions entre le joueur et le fantome qui se voit
         conditionWin = pygame.sprite.spritecollide(self, self.winCond, False)          # regarde les collisions entre le joueur et la zone d'arrivée
         if conditionFantome and not conditionWin:                                      # si on touche le fantome qui se voit et qu'on est pas dans la zone de fin
-            print ("impact!!")
             self.collisionMort = True                                                       # collision de mort = true
 
     def win(self, temps_attentes, temps):
         condition = pygame.sprite.spritecollide(self, self.winCond, False)          # regarde les collisions entre le joueur et la zone d'arrivée
         if condition and not self.cheminTerminé and ( temps_attentes <= 0 or temps <= 0):                     # si cette colision existe ET que le chemin n'est pas déjà fini ET que le timer vaut 0 faire:
-            print("boby")                                                           #test
             self.cheminTerminé = True                                               #termine le chemin du joueur (voir le main)
 
             if self.compteurPosition < len(self.listeStarter)-1:                    # si le compteur de position n'est pas à la fin de la liste de position
