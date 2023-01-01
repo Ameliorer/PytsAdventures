@@ -20,7 +20,7 @@ class Pot (pygame.sprite.Sprite):
             case "freeze":
                 self.image.fill('blue')
             case "spikes":
-                self.image.fill('black')
+                self.image.fill('grey')
             case _:
                 self.image.fill('black')
 

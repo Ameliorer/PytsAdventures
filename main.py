@@ -8,7 +8,7 @@ clock = pygame.time.Clock()
 screen_width, screen_height = 1280, 720
 screen = pygame.display.set_mode((screen_width, screen_height), pygame.SRCALPHA)
 
-game = Game(1, screen)
+game = Game(2, screen)
 
 font = pygame.font.Font(None, 36)
 text_bouton = font.render("Lancer la partie", True, (0, 0, 0))
@@ -22,7 +22,7 @@ inGame = False
 
 def setGame():
     game.destroy()
-    game.__init__(1, screen)
+    game.__init__(2, screen)
 
 while True:
     for event in pygame.event.get():
@@ -42,7 +42,7 @@ while True:
     if inGame:
         game.update()
     else:
-        button = screen.blit(text_bouton, [text_bouton_x, text_bouton_y + 60])
+        button = screen.blit(text_bouton, [text_bouton_x, text_bouton_y])
 
     pygame.display.update()
     clock.tick(50)
