@@ -17,7 +17,8 @@ class Game:
         self.font = pygame.font.Font(None, 36)
         self.tile_size = 20
         self.spawns = []
-        
+        self.ZoneMort = []
+        self.Spikes = []
         self.spriteJoueur = pygame.sprite.Group()
         self.spriteFantome = pygame.sprite.Group()
         self.collisions = pygame.sprite.Group()
@@ -34,7 +35,7 @@ class Game:
 
         match place:
             case 1:
-
+                """
                 StaticObstacle((0, 0), (1280, 20), [self.walls, self.collisions])
                 StaticObstacle((0, 700), (1280, 20), [self.walls, self.collisions])
                 StaticObstacle((0, 0), (20, 720), [self.walls, self.collisions])
@@ -80,55 +81,22 @@ class Game:
                 #POTIONS
                 # potionVitesse = Pot([self.objs], 500, 300, 1, "speed+", 50)
                 # potionVitesse = Pot([self.objs], 500, 300, 1, "speed+", 50)
-                self.ZoneMort = Zone([self.zones], 700, 350, "mort", 0,0,0)
+                self.ZoneMort = [Zone([self.zones], 700, 350, "mort", 0,0,0)]
                 PotSpeedp = Pot([self.objs], 500, 300, 15, "speed+", 50, 3)
-                self.Spikes = Pot([self.objs], 500, 300, 2, "spikes", 0, 15, 0,0,0)
+                self.Spikes = [Pot([self.objs], 500, 300, 2, "spikes", 0, 15, 0),Pot([self.objs], 500, 320, 2, "spikes", 0, 15, 0)]
                 # ZoneSpeedp = Zone([self.zones], 700, 350, "speed+", 100,0,0)
                 # PotSpeedm = Pot([self.objs], 500, 300, 2, "speed-", 50, 3, 0, 0, 0)
                 ZoneSpeedm = Zone([self.zones], 700, 350, "speed-", 200)
                 # PotSpeedm = Pot([self.objs], 500, 300, 2, "freeze", 50, 1, 0,0,0)
-                #ZoneSpeedm = Zone([self.zones], 700, 350, "freeze", 50,0,0)
-
+                #ZoneSpeedm = Zone([self.zones], 700, 350, "freeze", 50,0,0)"""
+                self.level("1")
             case 2:
+                self.level("2")
+            case 3:
+                self.level("3")
+            case 4:
+                self.level("4")
 
-
-
-                img = Image.open("test.jpg")
-                for x in range(64):
-                    for y in range(36):
-                        coordinate = x, y
-                        color = (img.getpixel(coordinate))
-
-                        if color == (0, 0, 0, 255): #MURS NOIR
-                            StaticObstacle((x * 20, y * 20), (self.tile_size, self.tile_size), [self.walls, self.collisions])
-
-                        if color == (255, 0, 0, 255):#SPAWN ROUGE
-                            self.spawns.append(pygame.Rect(x*20, y*20, 40, 80))
-
-                        if color == (0, 255, 0, 255):#ZONE WIN VERTE
-                            Win((x*20, y*20), (20, 20), [self.win])
-
-                        if color == (255, 242, 0, 255): #POTION SPEED JAUNE
-                            Pot([self.objs], x*20, y*20, 3, "speed+", 100, 3)
-
-                        if color == (0, 0, 255, 255) : #ZONE LENTE BLEUE
-                            Zone([self.zones], x*20, y*20, "speed-", 100, 100, 80)
-
-                        if color == (77, 77, 0, 255) : #ZONE TRES LENTE MARRON
-                            Zone([self.zones], x*20, y*20, "speed-", 200, 100, 80)
-
-                        if color == (66, 165, 245, 255) : #ZONE RAPIDE CYAN
-                            Zone([self.zones], x*20, y*20, "speed+", 100, 100, 80)
-
-                        if color == (255, 149, 0, 255) : #ZONE TRES RAPIDE ORANGE
-                            Zone([self.zones], x*20, y*20, "speed+", 200, 100, 80)
-
-                        if color == (50, 50, 50, 255) : #SPIKES GRIS
-                            Pot([self.objs], x*20, y*20, 1, "spikes", 0, 1, 0)
-
-
-                self.ZoneMort = Zone([self.zones], 0, 0, "mort", 0, 0, 0)
-                self.Spikes = Pot([self.objs], 0, 0, 0, "spikes", 0, 0, 0, 0, 0)
 
             case _:
                 pass
@@ -160,6 +128,59 @@ class Game:
         self.text_bouton_y = self.screen.get_height() / 2 - self.text_bouton_rect.height / 2
 
         self.bouton = [self.text_bouton_x - 10, self.text_bouton_y + 50, self.text_bouton_rect.width + 20, self.text_bouton_rect.height + 20]
+
+    def level(self, numeroNiveau):
+        img = Image.open("level"+numeroNiveau+".png")
+        for x in range(64):
+            for y in range(36):
+                coordinate = x, y
+                color = (img.getpixel(coordinate))
+                # PALETTE : 000000,ff0000,00ff00,0000ff,fff200,4d4d00,42a5f5,ff9500,323232,ffffff,ff00ff,a600ff,7fc8ff,ffc87a
+
+
+
+                if color == (0, 0, 0, 255):  # MURS NOIR
+                    StaticObstacle((x * 20, y * 20), (self.tile_size, self.tile_size), [self.walls, self.collisions])
+
+                if color == (255, 0, 0, 255):  # SPAWN ROUGE
+                    self.spawns.append(pygame.Rect(x * 20, y * 20, 40, 80))
+
+                if color == (0, 255, 0, 255):  # ZONE WIN VERTE
+                    Win((x * 20, y * 20), (20, 20), [self.win])
+
+                if color == (255, 242, 0, 255):  # POTION SPEED JAUNE
+                    Pot([self.objs], x * 20, y * 20, 3, "speed+", 100, 3)
+
+                if color == (0, 0, 255, 255):  # ZONE LENTE BLEUE HORIZONTALE
+                    Zone([self.zones], x * 20, y * 20, "speed-", 100, 100, 80)
+
+                if color == (77, 77, 0, 255):  # ZONE TRES LENTE MARRON HORIZONTALE
+                    Zone([self.zones], x * 20, y * 20, "speed-", 200, 100, 80)
+
+                if color == (66, 165, 245, 255):  # ZONE RAPIDE CYAN HORIZONTALE
+                    Zone([self.zones], x * 20, y * 20, "speed+", 100, 100, 80)
+
+                if color == (255, 149, 0, 255):  # ZONE TRES RAPIDE ORANGE HORIZONTALE
+                    Zone([self.zones], x * 20, y * 20, "speed+", 200, 100, 80)
+
+                if color == (255, 0, 255, 255):  # ZONE LENTE ROSE VERTICALE
+                    Zone([self.zones], x * 20, y * 20, "speed-", 100, 80, 100)
+
+                if color == (166, 0, 255, 255):  # ZONE TRES LENTE VIOLETTE VERTICALE
+                    Zone([self.zones], x * 20, y * 20, "speed-", 200, 80, 120)
+
+                if color == (166, 1, 255, 255):  # ZONE TRES LENTE VIOLETTE VERTICALE
+                    Zone([self.zones], x * 20, y * 20, "speed-", 200, 80, 100)
+
+                if color == (127, 200, 255, 255):  # ZONE RAPIDE CYAN PALE VERTICALE
+                    Zone([self.zones], x * 20, y * 20, "speed+", 100, 80, 100)
+
+                if color == (255, 200, 122, 255):  # ZONE TRES RAPIDE ORANGE PALE VERTICALE
+                    Zone([self.zones], x * 20, y * 20, "speed+", 200, 80, 100)
+
+                if color == (50, 50, 50, 255):  # SPIKES GRIS
+                    self.Spikes.append(Pot([self.objs], x * 20 + 5, y * 20 + 5, 2, "spikes"))
+
 
     def destroy(self):
         for item in self.spriteJoueur:
@@ -296,8 +317,16 @@ class Game:
         else:
             self.fini = False                                            #pour éviter les problèmes mais pas encore utilisé
 
+        for spike in self.Spikes:
+            if spike.game_over:
+                self.game_over = True
 
-        if ((self.temps() <= 0 and not self.player.cheminTerminé) or (self.player.collisionMort) or self.ZoneMort.game_over or self.Spikes.game_over):  # Si le temps est dépassé et que le chemin n'est pas fini
+
+        for zone in self.ZoneMort:
+            if zone.game_over :
+                self.game_over = True
+
+        if ((self.temps() <= 0 and not self.player.cheminTerminé) or (self.player.collisionMort)):  # Si le temps est dépassé et que le chemin n'est pas fini
             self.game_over = True                                                            # ou si on touche le fantome qui se voit et qu'on est pas dans la zone de fin
 
         if pygame.sprite.spritecollide(self.player, self.win, False):                 # si il y a une collision entre le joueur et la zone de fin
