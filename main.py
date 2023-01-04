@@ -2,6 +2,7 @@ import pygame
 from sys import exit
 from game import Game
 from LevelSelector import LevelSelector
+from random import randint
 
 pygame.init()
 pygame.display.set_caption("Pyt's Adventures")
@@ -9,7 +10,7 @@ clock = pygame.time.Clock()
 screen_width, screen_height = 1280, 720
 screen = pygame.display.set_mode((screen_width, screen_height), pygame.SRCALPHA)
 
-game = Game(2, screen)
+game = Game(1, screen)
 LevelSelector = LevelSelector(3, screen)
 
 font = pygame.font.Font(None, 36)
@@ -34,7 +35,7 @@ inLevelSelector = False
 
 def setGame():
     game.destroy()
-    game.__init__(2, screen)
+    game.__init__(randint(1, 4), screen)
 
 def setLevelSelector():
     game.destroy()

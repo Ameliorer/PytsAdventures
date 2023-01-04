@@ -9,4 +9,4 @@ Mais attention, si vous touchez ou vous faites toucher par les fantômes de votr
 
 Pour lancer le jeu, lancez le fichier main dans un terminal python.
 
-ATTENTION pour pouvoir jouer à ce jeu, il vous faut posséder le module python nommé pygame (facilement récupérable grâce à la commande : "pip install pygame") et la version 3.10 de python
+ATTENTION pour pouvoir jouer à ce jeu, il vous faut posséder le module python nommé pygame (facilement récupérable grâce à la commande : "pip install pygame"), le module pillow (aussi facilement récupérable grâce à la commande : "pip install pillow") et la version 3.10 de python
