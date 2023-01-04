@@ -84,8 +84,16 @@ while True:
                     inLevelSelector = False
                     setGameParticulier(4)
 
-            elif ((game.game_over or game.wining) and pygame.Rect.collidepoint(game.button,pygame.mouse.get_pos())):
-                setGame()
+                if (pygame.Rect.collidepoint(game.retur,pygame.mouse.get_pos())):
+                    inLevelSelector = False
+
+            elif (game.game_over or game.wining):
+                if (pygame.Rect.collidepoint(game.button,pygame.mouse.get_pos())):
+                    game.recommencer()
+
+                if (pygame.Rect.collidepoint(game.retur,pygame.mouse.get_pos())):
+                    inGame = False
+
     screen.fill('white')
     if inGame:
         game.update()
