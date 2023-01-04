@@ -37,6 +37,10 @@ def setGame():
     game.destroy()
     game.__init__(randint(1, 4), screen)
 
+def setGameParticulier(x: int):
+    game.destroy()
+    game.__init__(x, screen)
+
 def setLevelSelector():
     game.destroy()
     LevelSelector.__init__(4, screen)
@@ -58,6 +62,27 @@ while True:
             elif ((not inLevelSelector) and pygame.Rect.collidepoint(button_level,pygame.mouse.get_pos())):
                 inLevelSelector = True
                 setLevelSelector()
+
+            elif (inLevelSelector):
+                if (pygame.Rect.collidepoint(LevelSelector.n1 ,pygame.mouse.get_pos())):
+                    inGame = True
+                    inLevelSelector = False
+                    setGameParticulier(1)
+
+                if (pygame.Rect.collidepoint(LevelSelector.n2 ,pygame.mouse.get_pos())):
+                    inGame = True
+                    inLevelSelector = False
+                    setGameParticulier(2)
+
+                if (pygame.Rect.collidepoint(LevelSelector.n3 ,pygame.mouse.get_pos())):
+                    inGame = True
+                    inLevelSelector = False
+                    setGameParticulier(3)
+
+                if (pygame.Rect.collidepoint(LevelSelector.n4 ,pygame.mouse.get_pos())):
+                    inGame = True
+                    inLevelSelector = False
+                    setGameParticulier(4)
 
             elif ((game.game_over or game.wining) and pygame.Rect.collidepoint(game.button,pygame.mouse.get_pos())):
                 setGame()

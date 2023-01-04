@@ -16,13 +16,29 @@ class LevelSelector:
         text_y = self.screen.get_height() / 3 - text_rect.height / 2     # on le met au milieu de l'écran
         self.screen.blit(text, [text_x, text_y])
 
-        for i in range (self.nbLevels):
-            text = self.font.render(str(i+1), True, (0, 0, 0))  # création du texte
-            text_rect = text.get_rect()  # c'est un rectangle
-            text_x = ((i+1)*self.screen.get_width()) / (self.nbLevels+1) - text_rect.width / 2  # on le met au milieu de l'écran
-            text_y = (2*self.screen.get_height()) / 3 - text_rect.height / 2  # on le met au milieu de l'écran
-            self.screen.blit(text, [text_x, text_y])
+        niveau1 = self.font.render(str(1), True, (0, 0, 0))  # création du texte
+        text_rect = niveau1.get_rect()  # c'est un rectangle
+        text_x = ((1)*self.screen.get_width()) / (self.nbLevels+1) - text_rect.width / 2  # on le met au milieu de l'écran
+        text_y = (2*self.screen.get_height()) / 3 - text_rect.height / 2  # on le met au milieu de l'écran
+        self.n1 = self.screen.blit(niveau1, [text_x, text_y])
+
+        niveau2 = self.font.render(str(2), True, (0, 0, 0))  # création du texte
+        text_rect = niveau2.get_rect()  # c'est un rectangle
+        text_x = ((2)*self.screen.get_width()) / (self.nbLevels+1) - text_rect.width / 2  # on le met au milieu de l'écran
+        text_y = (2*self.screen.get_height()) / 3 - text_rect.height / 2  # on le met au milieu de l'écran
+        self.n2 = self.screen.blit(niveau2, [text_x, text_y])
+
+        niveau3 = self.font.render(str(3), True, (0, 0, 0))  # création du texte
+        text_rect = niveau3.get_rect()  # c'est un rectangle
+        text_x = ((3)*self.screen.get_width()) / (self.nbLevels+1) - text_rect.width / 2  # on le met au milieu de l'écran
+        text_y = (2*self.screen.get_height()) / 3 - text_rect.height / 2  # on le met au milieu de l'écran
+        self.n3 = self.screen.blit(niveau3, [text_x, text_y])
+
+        niveau4 = self.font.render(str(4), True, (0, 0, 0))  # création du texte
+        text_rect = niveau4.get_rect()  # c'est un rectangle
+        text_x = ((4)*self.screen.get_width()) / (self.nbLevels+1) - text_rect.width / 2  # on le met au milieu de l'écran
+        text_y = (2*self.screen.get_height()) / 3 - text_rect.height / 2  # on le met au milieu de l'écran
+        self.n4 = self.screen.blit(niveau4, [text_x, text_y])
 
     def update(self):
-
         self.afficheLevelSelector()
