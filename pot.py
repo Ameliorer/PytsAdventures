@@ -8,6 +8,9 @@ class Pot (pygame.sprite.Sprite):
 
         self.image = pygame.Surface((tx, ty))
 
+        self.tx = tx
+        self.ty = ty
+
         self.action = action
 
         self.game_over = False

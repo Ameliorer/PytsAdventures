@@ -5,6 +5,9 @@ class Zone (pygame.sprite.Sprite):
         super().__init__(group)
         self.type = "potion"
 
+        self.tx = tx
+        self.ty = ty
+
         self.image = pygame.Surface((tx, ty))
 
         self.action = action

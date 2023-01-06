@@ -239,17 +239,30 @@ class Game:
 
         for zone in self.zones:
             if zone.action == "speed+":
-                text = pygame.font.Font(None, 30).render("+", True, (0, 0, 0))
-            if zone.action == "speed-":
-                text = pygame.font.Font(None, 30).render("-", True, (0, 0, 0))
-            self.screen.blit(text, zone.rect)
+                if zone.nb == 200:
+                    text = pygame.font.Font(None, 30).render("+ +", True, (0, 0, 0))
+                else:
+                    text = pygame.font.Font(None, 30).render("+", True, (0, 0, 0))
+
+            elif zone.action == "speed-":
+                if zone.nb == 200:
+                    text = pygame.font.Font(None, 30).render("- -", True, (0, 0, 0))
+                else:
+                    text = pygame.font.Font(None, 30).render("-", True, (0, 0, 0))
+            else:
+                text = pygame.font.Font(None, 15).render("", True, (0, 0, 0))
+
+            self.screen.blit(text, ((zone.tx / 2)+zone.posx-text.get_rect().width/2, (zone.ty/2)+zone.posy-text.get_rect().height/2))
 
         for obj in self.objs:
             if not obj.haveBeenActif:
                 self.screen.blit(obj.image, obj.rect)
                 if obj.action == "speed+":
                     text = pygame.font.Font(None, 15).render("+", True, (0, 0, 0))
-                self.screen.blit(text, obj.rect)
+                else :
+                    text = pygame.font.Font(None, 15).render("", True, (0, 0, 0))
+
+                self.screen.blit(text, ((obj.tx / 2)+obj.posx-text.get_rect().width/2, (obj.ty/2)+obj.posy-text.get_rect().height/2))
 
         self.spriteFantome.update(self.compteur)
         self.spriteFantome.draw(self.screen)
