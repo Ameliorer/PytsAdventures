@@ -237,9 +237,19 @@ class Game:
 
         self.walls.draw(self.screen)
 
+        for zone in self.zones:
+            if zone.action == "speed+":
+                text = pygame.font.Font(None, 30).render("+", True, (0, 0, 0))
+            if zone.action == "speed-":
+                text = pygame.font.Font(None, 30).render("-", True, (0, 0, 0))
+            self.screen.blit(text, zone.rect)
+
         for obj in self.objs:
             if not obj.haveBeenActif:
                 self.screen.blit(obj.image, obj.rect)
+                if obj.action == "speed+":
+                    text = pygame.font.Font(None, 15).render("+", True, (0, 0, 0))
+                self.screen.blit(text, obj.rect)
 
         self.spriteFantome.update(self.compteur)
         self.spriteFantome.draw(self.screen)
