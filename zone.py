@@ -16,7 +16,7 @@ class Zone (pygame.sprite.Sprite):
             case "speed+":
                 self.image.fill('yellow')
             case "speed-":
-                self.image.fill('brown')
+                self.image.fill((115,80,50))
             case "freeze":
                 self.image.fill('blue')
             case _:
