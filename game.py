@@ -306,7 +306,7 @@ class Game:
             else :
                 couleur = "Black"
 
-            temps_surf = pygame.font.Font(None, taille).render(affiche, True, couleur)
+            temps_surf = pygame.font.Font("font.ttf", taille).render(affiche, True, couleur)
             temps_rect = temps_surf.get_rect(topleft=(coordonnesX, coordonnesY))
             surf.blit(temps_surf, temps_rect)
 
