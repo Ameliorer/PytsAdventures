@@ -47,6 +47,12 @@ def setGame():
     niveau = listeNiveau.pop(0)
     game.__init__(niveau, screen)
 
+def cleanGame():
+    global inSuiteGame, listeNiveau, inGame
+    inSuiteGame = False
+    listeNiveau = [1, 2, 3]
+    inGame = False
+
 def setGameParticulier(x: int):
     game.destroy()
     game.__init__(x, screen)
@@ -96,14 +102,15 @@ while True:
                 if (pygame.Rect.collidepoint(LevelSelector.retur,pygame.mouse.get_pos())):
                     inLevelSelector = False
 
-            elif (game.game_over or game.wining):
+            elif (game.game_over):
                 if (pygame.Rect.collidepoint(game.button,pygame.mouse.get_pos())):
                     game.recommencer()
 
                 if (pygame.Rect.collidepoint(game.retur,pygame.mouse.get_pos())):
-                    inSuiteGame = False
-                    listeNiveau = [1, 2, 3]
-                    inGame = False
+                    cleanGame()
+            elif (game.wining):
+                if (pygame.Rect.collidepoint(game.retur,pygame.mouse.get_pos())):
+                    cleanGame()
 
     screen.fill('white')
 
