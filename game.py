@@ -304,7 +304,6 @@ class Game:
         self.retur = self.screen.blit(self.text_retour, [self.text_retour_x, self.text_retour_y + 60])
 
     def afficheWin(self):
-        self.wining = True
         self.screen.fill((0, 0, 0))                                      # écran noir
         self.player.pos.x = 0                                            # le joueur ne peut plus bouger
         self.player.pos.y = 0                                            # le joueur ne peut plus bouger
@@ -321,39 +320,42 @@ class Game:
         self.last_time = time.time()
 
     def update(self):
-        self.majTemps()
+        if not self.wining:
+            self.majTemps()
 
-        self.drawAndUpdate()
+            self.drawAndUpdate()
 
-        if ( self.temps()<=0 or self.temps_attentes()<=0 ) and self.player.cheminTerminé  :                     # lorsque le joueur à atteint l'arrivé et que le temps d'attente ou le temps total est nul
-            if not self.fini:                                        # on reset le timer
-                self.nextStartPlayer()
-        else:
-            self.fini = False                                            #pour éviter les problèmes mais pas encore utilisé
+            if ( self.temps()<=0 or self.temps_attentes()<=0 ) and self.player.cheminTerminé  :                     # lorsque le joueur à atteint l'arrivé et que le temps d'attente ou le temps total est nul
+                if not self.fini:                                        # on reset le timer
+                    self.nextStartPlayer()
+            else:
+                self.fini = False                                            #pour éviter les problèmes mais pas encore utilisé
 
-        for spike in self.Spikes:
-            if spike.game_over:
-                self.game_over = True
+            for spike in self.Spikes:
+                if spike.game_over:
+                    self.game_over = True
 
 
-        for zone in self.ZoneMort:
-            if zone.game_over :
-                self.game_over = True
+            for zone in self.ZoneMort:
+                if zone.game_over :
+                    self.game_over = True
 
-        if ((self.temps() <= 0 and not self.player.cheminTerminé) or (self.player.collisionMort)):  # Si le temps est dépassé et que le chemin n'est pas fini
-            self.game_over = True                                                            # ou si on touche le fantome qui se voit et qu'on est pas dans la zone de fin
+            if ((self.temps() <= 0 and not self.player.cheminTerminé) or (self.player.collisionMort)):  # Si le temps est dépassé et que le chemin n'est pas fini
+                self.game_over = True                                                            # ou si on touche le fantome qui se voit et qu'on est pas dans la zone de fin
 
-        if pygame.sprite.spritecollide(self.player, self.win, False):                 # si il y a une collision entre le joueur et la zone de fin
-            res = False                                                         # on reset le temps d'attente
-        else :                                                              # sinon
-            res = True                                                          # il ne se reset pas
-        self.temps_attentes(res)
+            if pygame.sprite.spritecollide(self.player, self.win, False):                 # si il y a une collision entre le joueur et la zone de fin
+                res = False                                                         # on reset le temps d'attente
+            else :                                                              # sinon
+                res = True                                                          # il ne se reset pas
+            self.temps_attentes(res)
 
-        self.afficheChrono()
+            self.afficheChrono()
 
-        if self.game_over:
-            self.afficheGameOver()
-
+            if self.game_over:
+                self.afficheGameOver()
+        
+        if self.wining:
+            self.afficheWin()
 
         if len(self.listePosition) == len(self.spawns) and len(self.spawns) != 0:
-            self.afficheWin()
+            self.wining = True

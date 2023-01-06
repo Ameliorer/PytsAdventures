@@ -30,12 +30,17 @@ text_bouton_level_y = screen.get_height() / 2 - text_bouton_rect_level.height / 
 button = [text_bouton_x - 10, text_bouton_y + 50, text_bouton_rect.width + 20, text_bouton_rect.height + 20]
 button_level = [text_bouton_level_x, text_bouton_level_y, text_bouton_rect_level.width, text_bouton_rect_level.height]
 
+inSuiteGame = False
 inGame = False
 inLevelSelector = False
 
+listeNiveau = [1, 2, 3, 4]
+
 def setGame():
+    global listeNiveau
     game.destroy()
-    game.__init__(randint(1, 4), screen)
+    niveau = listeNiveau.pop(0)
+    game.__init__(niveau, screen)
 
 def setGameParticulier(x: int):
     game.destroy()
@@ -56,6 +61,7 @@ while True:
             #game.__init__(1, screen)
         if event.type == pygame.MOUSEBUTTONDOWN:
             if ((not inGame) and pygame.Rect.collidepoint(button,pygame.mouse.get_pos())):
+                inSuiteGame = True
                 inGame = True
                 setGame()
 
@@ -92,9 +98,15 @@ while True:
                     game.recommencer()
 
                 if (pygame.Rect.collidepoint(game.retur,pygame.mouse.get_pos())):
+                    inSuiteGame = False
+                    listeNiveau = [1, 2, 3, 4]
                     inGame = False
 
     screen.fill('white')
+
+    if inSuiteGame and game.wining and listeNiveau != []:
+        setGame()
+
     if inGame:
         game.update()
 
