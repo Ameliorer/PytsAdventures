@@ -41,12 +41,6 @@ class LevelSelector:
         text_y = (2*self.screen.get_height()) / 4 - text_rect.height / 2  # on le met au milieu de l'écran
         self.n3 = self.screen.blit(niveau3, [text_x, text_y])
 
-        niveau4 = self.font.render(str(4), True, (0, 0, 0))  # création du texte
-        text_rect = niveau4.get_rect()  # c'est un rectangle
-        text_x = ((4)*self.screen.get_width()) / (self.nbLevels+1) - text_rect.width / 2  # on le met au milieu de l'écran
-        text_y = (2*self.screen.get_height()) / 4 - text_rect.height / 2  # on le met au milieu de l'écran
-        self.n4 = self.screen.blit(niveau4, [text_x, text_y])
-
         pygame.draw.rect(self.screen, (175, 175, 175), self.retour)
         self.retur = self.screen.blit(self.text_retour, [self.text_retour_x, self.text_retour_y + 60])
 

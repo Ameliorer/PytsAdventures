@@ -93,11 +93,6 @@ while True:
                     inLevelSelector = False
                     setGameParticulier(3)
 
-                if (pygame.Rect.collidepoint(LevelSelector.n4 ,pygame.mouse.get_pos())):
-                    inGame = True
-                    inLevelSelector = False
-                    setGameParticulier(4)
-
                 if (pygame.Rect.collidepoint(LevelSelector.retur,pygame.mouse.get_pos())):
                     inLevelSelector = False
 
@@ -107,7 +102,7 @@ while True:
 
                 if (pygame.Rect.collidepoint(game.retur,pygame.mouse.get_pos())):
                     inSuiteGame = False
-                    listeNiveau = [1, 2, 3, 4]
+                    listeNiveau = [1, 2, 3]
                     inGame = False
 
     screen.fill('white')
