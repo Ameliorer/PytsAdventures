@@ -2,7 +2,6 @@ import pygame
 from sys import exit
 from game import Game
 from LevelSelector import LevelSelector
-from random import randint
 
 pygame.init()
 pygame.display.set_caption("Pyt's Adventures")
@@ -26,15 +25,21 @@ text_bouton_rect_level = text_bouton_level.get_rect()
 text_bouton_level_x = screen.get_width() / 2 - text_bouton_rect_level.width / 2
 text_bouton_level_y = screen.get_height() / 2 - text_bouton_rect_level.height / 2 + 30
 
+text_bouton_exit = font.render("Quitter le jeu", True, (0, 0, 0))
+text_bouton_rect_exit = text_bouton_exit.get_rect()
+text_bouton_exit_x = screen.get_width() / 2 - text_bouton_rect_exit.width / 2
+text_bouton_exit_y = screen.get_height() / 2 - text_bouton_rect_exit.height / 2 + 90
+
 
 button = [text_bouton_x - 10, text_bouton_y + 50, text_bouton_rect.width + 20, text_bouton_rect.height + 20]
 button_level = [text_bouton_level_x, text_bouton_level_y, text_bouton_rect_level.width, text_bouton_rect_level.height]
+button_exit = [text_bouton_exit_x, text_bouton_exit_y, text_bouton_rect_exit.width, text_bouton_rect_exit.height]
 
 inSuiteGame = False
 inGame = False
 inLevelSelector = False
 
-listeNiveau = [1, 2, 3, 4]
+listeNiveau = [1, 2, 3]
 
 def setGame():
     global listeNiveau
@@ -48,12 +53,11 @@ def setGameParticulier(x: int):
 
 def setLevelSelector():
     game.destroy()
-    LevelSelector.__init__(4, screen)
-
+    LevelSelector.__init__(3, screen)
 
 while True:
     for event in pygame.event.get():
-        if event.type == pygame.QUIT:
+        if event.type == pygame.QUIT :
             pygame.quit()
             exit()
         #if event.type == pygame.MOUSEBUTTONUP:
@@ -64,6 +68,10 @@ while True:
                 inSuiteGame = True
                 inGame = True
                 setGame()
+
+            elif ((not inGame) and (not inLevelSelector) and pygame.Rect.collidepoint(button_exit,pygame.mouse.get_pos())):
+                pygame.quit()
+                exit()
 
             elif ((not inLevelSelector) and pygame.Rect.collidepoint(button_level,pygame.mouse.get_pos())):
                 inLevelSelector = True
@@ -116,6 +124,7 @@ while True:
     else:
         button = screen.blit(text_bouton, [text_bouton_x, text_bouton_y])
         button_level = screen.blit(text_bouton_level, [text_bouton_level_x, text_bouton_level_y])
+        button_exit = screen.blit(text_bouton_exit, [text_bouton_exit_x, text_bouton_exit_y])
 
     pygame.display.update()
     clock.tick(50)

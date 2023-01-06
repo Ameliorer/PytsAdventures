@@ -95,8 +95,6 @@ class Game:
                 self.level("2")
             case 3:
                 self.level("3")
-            case 4:
-                self.level("4")
 
 
             case _:
