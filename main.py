@@ -9,6 +9,8 @@ clock = pygame.time.Clock()
 screen_width, screen_height = 1280, 720
 screen = pygame.display.set_mode((screen_width, screen_height), pygame.SRCALPHA)
 
+image = pygame.image.load("imageLogo.png")
+
 game = Game(1, screen)
 LevelSelector = LevelSelector(3, screen)
 
@@ -124,6 +126,7 @@ while True:
         LevelSelector.update()
 
     else:
+        screen.blit(image, [0, 0])
         button = screen.blit(text_bouton, [text_bouton_x, text_bouton_y])
         button_level = screen.blit(text_bouton_level, [text_bouton_level_x, text_bouton_level_y])
         button_exit = screen.blit(text_bouton_exit, [text_bouton_exit_x, text_bouton_exit_y])
