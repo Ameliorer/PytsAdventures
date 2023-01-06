@@ -17,9 +17,9 @@ class Pot (pygame.sprite.Sprite):
 
         match self.action:
             case "speed+":
-                self.image.fill('yellow')
+                self.image.fill((255,230,115))
             case "speed-":
-                self.image.fill('brown')
+                self.image.fill((115,80,50))
             case "freeze":
                 self.image.fill('blue')
             case "spikes":
