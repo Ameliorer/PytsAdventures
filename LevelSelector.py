@@ -5,7 +5,7 @@ class LevelSelector:
     def __init__(self, nbLevels, screen) -> None:
         self.screen_width, self.screen_height = 1280, 720
         self.screen = screen
-        self.font = pygame.font.Font(None, 36)
+        self.font = pygame.font.Font("font.ttf", 36)
         self.nbLevels = nbLevels
 
         self.text_retour = self.font.render("Retour au menu", True, (0, 0, 0))

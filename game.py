@@ -15,7 +15,7 @@ class Game:
         self.place = place
         self.screen_width, self.screen_height = 1280, 720
         self.screen = screen
-        self.font = pygame.font.Font(None, 36)
+        self.font = pygame.font.Font("font.ttf", 36)
         self.tile_size = 20
         self.spawns = []
         self.ZoneMort = []
