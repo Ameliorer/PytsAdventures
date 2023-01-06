@@ -129,7 +129,7 @@ class Game:
         self.text_retour = self.font.render("Quitter la partie", True, (255, 255, 255))
         self.text_retour_rect = self.text_retour.get_rect()
         self.text_retour_x = self.screen.get_width() / 2 - self.text_retour_rect.width / 2
-        self.text_retour_y = self.screen.get_height() / 2 - self.text_retour_rect.height / 2 + 50
+        self.text_retour_y = self.screen.get_height() / 2 - self.text_retour_rect.height / 2 + 80
 
         self.bouton = [self.text_bouton_x - 10, self.text_bouton_y + 50, self.text_bouton_rect.width + 20, self.text_bouton_rect.height + 20]
         self.retour = [self.text_retour_x - 10, self.text_retour_y + 50, self.text_retour_rect.width + 20, self.text_retour_rect.height + 20]
@@ -314,10 +314,10 @@ class Game:
         self.screen.fill((0, 0, 0))                                      # écran noir
         self.player.pos.x = 0                                            # le joueur ne peut plus bouger
         self.player.pos.y = 0                                            # le joueur ne peut plus bouger
-        text = self.font.render("Game Over", True, (255, 255, 255))      # création du texte "game over"
+        text = pygame.font.Font("font.ttf", 60).render("Game Over", True, (255, 255, 255))      # création du texte "game over"
         text_rect = text.get_rect()                                 # c'est un rectangle
         text_x = self.screen.get_width() / 2 - text_rect.width / 2       # on le met au milieu de l'écran
-        text_y = self.screen.get_height() / 2 - text_rect.height / 2     # on le met au milieu de l'écran
+        text_y = self.screen.get_height() / 2 - text_rect.height / 2 - 30     # on le met au milieu de l'écran
         self.screen.blit(text, [text_x, text_y])
         pygame.draw.rect(self.screen, (45, 45, 45), self.bouton)
         self.button = self.screen.blit(self.text_bouton, [self.text_bouton_x, self.text_bouton_y + 60])
@@ -328,7 +328,7 @@ class Game:
         self.screen.fill((0, 0, 0))                                      # écran noir
         self.player.pos.x = 0                                            # le joueur ne peut plus bouger
         self.player.pos.y = 0                                            # le joueur ne peut plus bouger
-        text = self.font.render("Félicitations ! vous avez réussi !", True, (255, 255, 255))  # création du texte
+        text = pygame.font.Font("font.ttf", 50).render("Félicitations ! vous avez réussi !", True, (255, 255, 255))  # création du texte
         text_rect = text.get_rect()                                 # c'est un rectangle
         text_x = self.screen.get_width() / 2 - text_rect.width / 2       # on le met au milieu de l'écran
         text_y = self.screen.get_height() / 2 - text_rect.height / 2     # on le met au milieu de l'écran

@@ -19,18 +19,18 @@ font = pygame.font.Font("font.ttf", 36)
 text_bouton = font.render("Lancer la partie", True, (0, 0, 0))
 text_bouton_rect = text_bouton.get_rect()
 text_bouton_x = screen.get_width() / 2 - text_bouton_rect.width / 2
-text_bouton_y = screen.get_height() / 2 - text_bouton_rect.height / 2 - 30
+text_bouton_y = screen.get_height() / 2 - text_bouton_rect.height / 2 - 0
 
 
 text_bouton_level = font.render("Choisir le niveau", True, (0, 0, 0))
 text_bouton_rect_level = text_bouton_level.get_rect()
 text_bouton_level_x = screen.get_width() / 2 - text_bouton_rect_level.width / 2
-text_bouton_level_y = screen.get_height() / 2 - text_bouton_rect_level.height / 2 + 30
+text_bouton_level_y = screen.get_height() / 2 - text_bouton_rect_level.height / 2 + 80
 
 text_bouton_exit = font.render("Quitter le jeu", True, (0, 0, 0))
 text_bouton_rect_exit = text_bouton_exit.get_rect()
 text_bouton_exit_x = screen.get_width() / 2 - text_bouton_rect_exit.width / 2
-text_bouton_exit_y = screen.get_height() / 2 - text_bouton_rect_exit.height / 2 + 90
+text_bouton_exit_y = screen.get_height() / 2 - text_bouton_rect_exit.height / 2 + 160
 
 
 button = [text_bouton_x - 10, text_bouton_y + 50, text_bouton_rect.width + 20, text_bouton_rect.height + 20]
