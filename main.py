@@ -106,6 +106,8 @@ while True:
 
             elif (game.game_over):
                 if (pygame.Rect.collidepoint(game.button,pygame.mouse.get_pos())):
+                    inGame = True
+                    inLevelSelector = False
                     game.recommencer()
 
                 if (pygame.Rect.collidepoint(game.retur,pygame.mouse.get_pos())):
