@@ -8,7 +8,7 @@ class LevelSelector:
         self.font = pygame.font.Font(None, 36)
         self.nbLevels = nbLevels
 
-        self.text_retour = self.font.render("Quitter la partie", True, (0, 0, 0))
+        self.text_retour = self.font.render("Retour au menu", True, (0, 0, 0))
         self.text_retour_rect = self.text_retour.get_rect()
         self.text_retour_x = self.screen.get_width() / 2 - self.text_retour_rect.width / 2
         self.text_retour_y = self.screen.get_height() / 2 - self.text_retour_rect.height / 2 + 150
