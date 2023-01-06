@@ -14,7 +14,7 @@ image = pygame.image.load("imageLogo.png")
 game = Game(1, screen)
 LevelSelector = LevelSelector(3, screen)
 
-font = pygame.font.Font(None, 36)
+font = pygame.font.Font("font.ttf", 36)
 
 text_bouton = font.render("Lancer la partie", True, (0, 0, 0))
 text_bouton_rect = text_bouton.get_rect()
